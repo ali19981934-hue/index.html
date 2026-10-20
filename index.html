@@ -107,7 +107,7 @@ label{display:block;font-size:.9rem;font-weight:600;margin:10px 0 4px}
     <div>
       <h1>بحثك الجامعي يبدأ من هنا</h1>
       <p>بحوث وتقارير جاهزة لكل الاختصاصات العلمية والأكاديمية لطلبة الجامعات العراقية. سجّل بإيميلك، اختر بحثك، وتواصل معنا مباشرة على واتساب.</p>
-      <button class="btn" onclick="document.getElementById('catalog').scrollIntoView()">تصفح البحوث</button>
+      <button class="btn" onclick="needLogin()">اطلب بحثك الآن</button> <button class="btn line" onclick="document.getElementById('catalog').scrollIntoView()">تصفح المكتبة</button>
     </div>
     <div class="stats">
       <div class="stat"><span>بحث وتقرير</span><b id="sR">0</b></div>
@@ -122,7 +122,7 @@ label{display:block;font-size:.9rem;font-weight:600;margin:10px 0 4px}
     <div class="sec-h"><h2>كيف تعمل المنصة</h2></div>
     <div class="steps">
       <div class="step"><h3>سجّل بإيميلك</h3><p>أنشئ حسابك خلال دقيقة وسيصلك إشعار بالتفعيل.</p></div>
-      <div class="step"><h3>اختر بحثك</h3><p>تصفح الاختصاصات وابحث عن الموضوع المناسب لك.</p></div>
+      <div class="step"><h3>اكتب طلبك</h3><p>حدّد كليتك وموضوعك وتفاصيل طلبك.</p></div>
       <div class="step"><h3>تواصل عبر واتساب</h3><p>عند اختيارك يصلني طلبك ببياناتك لأتواصل معك مباشرة.</p></div>
     </div>
   </div>
@@ -167,6 +167,21 @@ label{display:block;font-size:.9rem;font-weight:600;margin:10px 0 4px}
   <button class="btn blue" style="width:100%;margin-top:8px" onclick="login()">دخول</button>
 </div></div>
 
+<div class="modal" id="mReq"><div class="box wide"><button class="x" onclick="closeM()" aria-label="إغلاق">×</button>
+  <h2>اطلب بحثك أو تقريرك</h2>
+  <label>عنوان البحث أو الموضوع</label><input id="qT">
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0 14px">
+    <div><label>الكلية (تصنيف الجامعات العراقية)</label><select id="qC"></select></div>
+    <div><label>القسم / الفرع</label><input id="qD"></div>
+    <div><label>المرحلة</label><select id="qL"><option>بكالوريوس</option><option>دبلوم</option><option>ماجستير</option><option>دكتوراه</option></select></div>
+    <div><label>النوع</label><select id="qY"><option>بحث</option><option>تقرير</option><option>مشروع تخرج</option><option>ملخص</option><option>عرض تقديمي</option></select></div>
+    <div><label>عدد الصفحات</label><input id="qP" type="number" min="1" value="15"></div>
+  </div>
+  <label>تفاصيل وملاحظات (توجيهات الأستاذ، المصادر، الموعد النهائي)</label><textarea id="qN" rows="3"></textarea>
+  <div class="msg" id="qM"></div>
+  <button class="btn blue" style="width:100%" onclick="sendReq()">إرسال الطلب عبر واتساب</button>
+</div></div>
+
 <div class="modal" id="mAdminLogin"><div class="box"><button class="x" onclick="closeM()" aria-label="إغلاق">×</button>
   <h2>لوحة الإدارة</h2>
   <label>كلمة مرور الإدارة</label><input id="aP" type="password" dir="ltr">
@@ -180,6 +195,7 @@ label{display:block;font-size:.9rem;font-weight:600;margin:10px 0 4px}
     <button class="chip on" onclick="tab(this,'tR')">البحوث</button>
     <button class="chip" onclick="tab(this,'tA')">الإعلانات</button>
     <button class="chip" onclick="tab(this,'tS')">التواصل الاجتماعي</button>
+    <button class="chip" onclick="tab(this,'tP')">نشر على المنصات</button>
     <button class="chip" onclick="tab(this,'tG')">الإعدادات</button>
   </div>
   <div id="tR" class="pane">
@@ -202,8 +218,18 @@ label{display:block;font-size:.9rem;font-weight:600;margin:10px 0 4px}
     <button class="btn blue sm" style="margin-top:10px" onclick="addS()">إضافة</button>
     <div id="lS" style="margin-top:14px"></div>
   </div>
+  <div id="tP" class="pane hide">
+    <label>نص المنشور</label><textarea id="pT" rows="3"></textarea>
+    <label>رابط صورة (إلزامي لانستغرام)</label><input id="pU" dir="ltr" placeholder="https://">
+    <label style="font-weight:400"><input type="checkbox" id="pAd" checked style="width:auto"> إظهاره كإعلان للطلبة في المنصة</label>
+    <label style="font-weight:400"><input type="checkbox" id="pF" checked style="width:auto"> فيسبوك</label>
+    <label style="font-weight:400"><input type="checkbox" id="pI" checked style="width:auto"> انستغرام</label>
+    <button class="btn blue sm" style="margin-top:10px" onclick="publish()">نشر</button>
+    <div class="msg ok" id="pM"></div>
+  </div>
   <div id="tG" class="pane hide">
     <label>رقم واتساب لاستلام الطلبات (بصيغة دولية بدون +)</label><input id="gW" dir="ltr" placeholder="9647XXXXXXXXX">
+    <label>رابط النشر على المنصات (Make Webhook)</label><input id="gH" dir="ltr" placeholder="https://hook.make.com/...">
     <label>كلمة مرور الإدارة الجديدة</label><input id="gP" type="password" dir="ltr">
     <button class="btn blue sm" style="margin-top:10px" onclick="saveG()">حفظ</button>
     <div class="msg ok" id="gM"></div>
@@ -267,12 +293,27 @@ async function login(){
 function logout(){D.session=null;save();ui()}
 const me=()=>D.users.find(x=>x.e===D.session);
 
-function pick(id){
-  const u=me(),r=D.res.find(x=>x.id===id);if(!u||!r)return;
-  const t=`السلام عليكم، أنا ${u.n}\nالجامعة: ${u.u}\nالإيميل: ${u.e}\nاخترت (${r.y}): ${r.t}\nالاختصاص: ${r.s}\nأرجو التواصل معي.`;
-  notify('تم إرسال طلبك','سيتواصل معك المشرف على واتساب');
-  toast('جارٍ فتح واتساب لإرسال طلبك…');
-  window.open('https://wa.me/'+D.whatsapp.replace(/\D/g,'')+'?text='+encodeURIComponent(t),'_blank');
+const COL={'الكليات الطبية والصحية':['الطب','طب الأسنان','الصيدلة','التمريض','العلوم الصحية والطبية'],
+'الكليات العلمية والهندسية':['الهندسة','علوم الحاسوب وتكنولوجيا المعلومات','العلوم','العلوم التطبيقية','الزراعة','الطب البيطري','التقنيات الهندسية'],
+'الكليات الإنسانية والاجتماعية':['الإدارة والاقتصاد','القانون','التربية','التربية الأساسية','التربية البدنية وعلوم الرياضة','الآداب','اللغات','العلوم السياسية','الإعلام','الفنون الجميلة','العلوم الإسلامية','الشريعة']};
+function needLogin(){me()?openReq():openM('mReg')}
+function pick(id){openReq(id)}
+function openReq(id){const r=D.res.find(x=>x.id===id);$('qT').value=r?r.t:'';$('qN').value=r?r.d:'';$('qM').textContent='';openM('mReq')}
+function sendReq(){
+  const u=me(),t=$('qT').value.trim(),m=$('qM');if(!u)return;
+  if(!t){m.className='msg bad';return m.textContent='اكتب عنوان البحث'}
+  const x=`السلام عليكم، أنا ${u.n}\nالجامعة: ${u.u}\nالإيميل: ${u.e}\n\nالمرحلة: ${$('qL').value}\nالكلية: ${$('qC').value}\nالقسم: ${$('qD').value||'-'}\nالنوع: ${$('qY').value} (${$('qP').value} صفحة)\nالعنوان: ${t}\nالملاحظات: ${$('qN').value||'-'}`;
+  closeM();notify('تم إرسال طلبك','سيتواصل معك المشرف على واتساب');toast('جارٍ فتح واتساب لإرسال طلبك…');
+  window.open('https://wa.me/'+D.whatsapp.replace(/\D/g,'')+'?text='+encodeURIComponent(x),'_blank');
+}
+async function publish(){
+  const t=$('pT').value.trim(),m=$('pM');if(!t)return;
+  const pl=[$('pF').checked&&'facebook',$('pI').checked&&'instagram'].filter(Boolean);
+  if($('pAd').checked){D.ads.unshift(t);save();ui();adm()}
+  if(!pl.length){m.textContent='تم النشر داخل المنصة';return}
+  if(!D.hookUrl){m.textContent='نُشر داخل المنصة. لربط فيسبوك وانستغرام أضف رابط النشر في الإعدادات';return}
+  try{await fetch(D.hookUrl,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify({text:t,image:$('pU').value.trim(),platforms:pl})});m.textContent='أُرسل المنشور إلى: '+pl.join(' و ')}
+  catch(e){m.textContent='فشل الإرسال'}
 }
 
 function ui(){
@@ -308,7 +349,7 @@ function adm(){
   $('lR').innerHTML=D.res.map(r=>`<div class="li"><span>${esc(r.t)} <small>(${esc(r.s)})</small></span><button class="btn red sm" onclick="delR(${r.id})">حذف</button></div>`).join('');
   $('lA').innerHTML=D.ads.map((a,i)=>`<div class="li"><span>${esc(a)}</span><button class="btn red sm" onclick="delA(${i})">حذف</button></div>`).join('')||'لا توجد إعلانات';
   $('lS').innerHTML=D.social.map((s,i)=>`<div class="li"><span>${esc(s.n)}</span><button class="btn red sm" onclick="delS(${i})">حذف</button></div>`).join('');
-  $('gW').value=D.whatsapp;
+  $('gW').value=D.whatsapp;$('gH').value=D.hookUrl||'';
 }
 function addR(){
   const t=$('nT').value.trim(),s=$('nS').value.trim();if(!t||!s)return;
@@ -321,11 +362,12 @@ const delA=i=>{D.ads.splice(i,1);save();ui();adm()};
 function addS(){const n=$('nSn').value.trim(),u=$('nSu').value.trim();if(!n||!/^https?:\/\//.test(u))return;D.social.push({n,u});$('nSn').value=$('nSu').value='';save();ui();adm()}
 const delS=i=>{D.social.splice(i,1);save();ui();adm()};
 function saveG(){
-  const w=$('gW').value.replace(/\D/g,'');if(w)D.whatsapp=w;
+  const w=$('gW').value.replace(/\D/g,'');if(w)D.whatsapp=w;D.hookUrl=$('gH').value.trim();
   if($('gP').value.length>=6){D.adminPass=$('gP').value;$('gP').value=''}
   save();$('gM').textContent='تم الحفظ'
 }
 $('yr').textContent=new Date().getFullYear();
+$('qC').innerHTML=Object.entries(COL).map(([g,a])=>`<optgroup label="${g}">${a.map(x=>`<option>${x}</option>`).join('')}</optgroup>`).join('');
 ui();
 </script>
 </body>
