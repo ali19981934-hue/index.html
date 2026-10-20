@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>منصة بحوثي الأكاديمية</title>
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@500;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0c1f4a;--lapis:#173c8f;--lapis2:#2b57c4;--gold:#c9a24b;--gold2:#f0dba0;--paper:#f6f7fb;--card:#fff;--line:#dfe3ee;--txt:#1b2540;--mut:#66708c;--ok:#1d8a5b;--bad:#c0392b}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{font-family:'IBM Plex Sans Arabic',Tahoma,sans-serif;background:var(--paper);color:var(--txt);line-height:1.8}
+h1,h2,h3,.logo{font-family:'Reem Kufi','IBM Plex Sans Arabic',serif}
+button,input,select,textarea{font:inherit}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.wrap{max-width:1120px;margin:auto;padding:0 20px}
+/* ads */
+.ads{background:var(--gold);color:var(--ink);font-weight:600;overflow:hidden;white-space:nowrap;padding:7px 0;font-size:.95rem}
+.ads span{display:inline-block;padding-inline:3rem;animation:mq 28s linear infinite}
+@keyframes mq{from{transform:translateX(-100%)}to{transform:translateX(100vw)}}
+@media(prefers-reduced-motion:reduce){.ads span{animation:none;white-space:normal}}
+/* header */
+header{background:var(--ink);color:#fff;position:sticky;top:0;z-index:20}
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:66px;gap:12px}
+.logo{font-size:1.5rem;font-weight:700;display:flex;align-items:center;gap:10px}
+.logo i{width:34px;height:34px;border-radius:9px;background:var(--gold);display:grid;place-items:center;color:var(--ink);font-style:normal;font-size:1.1rem}
+.btn{border:0;border-radius:10px;padding:10px 20px;font-weight:600;cursor:pointer;background:var(--gold);color:var(--ink);transition:transform .15s,background .15s}
+.btn:hover{transform:translateY(-2px);background:var(--gold2)}
+.btn.line{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.4)}
+.btn.blue{background:var(--lapis);color:#fff}.btn.blue:hover{background:var(--lapis2)}
+.btn.sm{padding:6px 14px;font-size:.9rem}
+.btn.red{background:var(--bad);color:#fff}
+.who{display:flex;gap:10px;align-items:center;font-size:.95rem}
+/* hero */
+.hero{background:var(--ink);color:#fff;position:relative;overflow:hidden;padding:72px 0 96px}
+.hero::before{content:"";position:absolute;inset:0;opacity:.12;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cpath d='M40 4l9 22 22 9-22 9-9 22-9-22-22-9 22-9z' fill='none' stroke='%23f0dba0' stroke-width='1.5'/%3E%3C/svg%3E")}
+.hero .wrap{position:relative;display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center}
+.hero h1{font-size:clamp(2rem,5vw,3.3rem);line-height:1.35;margin-bottom:16px}
+.hero p{color:#c8d1ea;max-width:46ch;margin-bottom:26px;font-size:1.05rem}
+.stats{display:grid;gap:14px}
+.stat{background:rgba(255,255,255,.07);border:1px solid rgba(240,219,160,.3);border-radius:16px;padding:16px 20px;display:flex;justify-content:space-between;align-items:center}
+.stat b{font-family:'Reem Kufi';font-size:2rem;color:var(--gold2)}
+/* sections */
+section{padding:56px 0}
+.sec-h{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;margin-bottom:24px}
+.sec-h h2{font-size:1.9rem;color:var(--ink)}
+.tools{display:flex;gap:10px;flex-wrap:wrap}
+.tools input,.tools select{border:1.5px solid var(--line);border-radius:10px;padding:9px 14px;background:#fff;min-width:190px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+.chip{border:1.5px solid var(--line);background:#fff;border-radius:99px;padding:5px 16px;cursor:pointer;font-size:.92rem}
+.chip.on{background:var(--lapis);color:#fff;border-color:var(--lapis)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;border-top:4px solid var(--lapis);display:flex;flex-direction:column;gap:10px}
+.card .tag{align-self:flex-start;background:#eef2fc;color:var(--lapis);border-radius:8px;padding:2px 12px;font-size:.85rem;font-weight:600}
+.card .typ{color:var(--gold);font-weight:600;font-size:.85rem}
+.card h3{font-size:1.2rem;color:var(--ink);line-height:1.6}
+.card p{color:var(--mut);font-size:.95rem;flex:1}
+.card .row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.empty{grid-column:1/-1;text-align:center;color:var(--mut);padding:40px;background:#fff;border:1.5px dashed var(--line);border-radius:16px}
+.lock{background:#fff;border:1.5px dashed var(--gold);border-radius:16px;padding:34px;text-align:center}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+.step{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px}
+.step h3{color:var(--ink);margin-bottom:4px}
+.step p{color:var(--mut);font-size:.95rem}
+/* footer */
+footer{background:var(--ink);color:#c8d1ea;padding:40px 0 24px}
+footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:center}
+.soc{display:flex;gap:10px;flex-wrap:wrap}
+.soc a{border:1px solid rgba(240,219,160,.4);border-radius:10px;padding:6px 16px;color:var(--gold2);transition:background .15s}
+.soc a:hover{background:rgba(240,219,160,.15)}
+.copy{text-align:center;font-size:.85rem;margin-top:22px;opacity:.8}
+.copy a{cursor:pointer;text-decoration:underline}
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(8,16,40,.65);display:none;place-items:center;z-index:50;padding:16px;overflow:auto}
+.modal.open{display:grid}
+.box{background:#fff;border-radius:20px;width:100%;max-width:440px;padding:28px;position:relative;animation:pop .2s ease-out}
+.box.wide{max-width:720px}
+@keyframes pop{from{transform:scale(.96);opacity:0}}
+.box h2{color:var(--ink);margin-bottom:14px}
+.x{position:absolute;top:12px;left:14px;border:0;background:none;font-size:1.6rem;cursor:pointer;color:var(--mut)}
+label{display:block;font-size:.9rem;font-weight:600;margin:10px 0 4px}
+.box input,.box select,.box textarea{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:10px 12px}
+.msg{font-size:.9rem;margin-top:10px;min-height:1.4em}
+.msg.bad{color:var(--bad)}.msg.ok{color:var(--ok)}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.li{display:flex;justify-content:space-between;align-items:center;gap:10px;border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:6px 0;font-size:.92rem}
+.toast{position:fixed;bottom:22px;right:50%;transform:translateX(50%);background:var(--ink);color:#fff;border-radius:14px;padding:14px 22px;z-index:99;border-inline-start:5px solid var(--gold);max-width:92vw;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+.hide{display:none!important}
+@media(max-width:760px){.hero .wrap{grid-template-columns:1fr}.hero{padding:48px 0 60px}header .btn.line{display:none}}
+</style>
+</head>
+<body>
+
+<div class="ads" id="ads" role="region" aria-label="إعلانات"><span id="adsText"></span></div>
+
+<header>
+  <div class="wrap">
+    <a class="logo" href="#top"><i>ب</i> منصة بحوثي</a>
+    <div id="guest"><button class="btn line sm" onclick="openM('mLogin')">تسجيل الدخول</button> <button class="btn sm" onclick="openM('mReg')">إنشاء حساب</button></div>
+    <div id="user" class="who hide"><span id="uName"></span><button class="btn line sm" onclick="logout()">خروج</button></div>
+  </div>
+</header>
+
+<div class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <h1>بحثك الجامعي يبدأ من هنا</h1>
+      <p>بحوث وتقارير جاهزة لكل الاختصاصات العلمية والأكاديمية لطلبة الجامعات العراقية. سجّل بإيميلك، اختر بحثك، وتواصل معنا مباشرة على واتساب.</p>
+      <button class="btn" onclick="document.getElementById('catalog').scrollIntoView()">تصفح البحوث</button>
+    </div>
+    <div class="stats">
+      <div class="stat"><span>بحث وتقرير</span><b id="sR">0</b></div>
+      <div class="stat"><span>اختصاص أكاديمي</span><b id="sS">0</b></div>
+      <div class="stat"><span>طالب مسجّل</span><b id="sU">0</b></div>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="sec-h"><h2>كيف تعمل المنصة</h2></div>
+    <div class="steps">
+      <div class="step"><h3>سجّل بإيميلك</h3><p>أنشئ حسابك خلال دقيقة وسيصلك إشعار بالتفعيل.</p></div>
+      <div class="step"><h3>اختر بحثك</h3><p>تصفح الاختصاصات وابحث عن الموضوع المناسب لك.</p></div>
+      <div class="step"><h3>تواصل عبر واتساب</h3><p>عند اختيارك يصلني طلبك ببياناتك لأتواصل معك مباشرة.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="catalog" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-h">
+      <h2>مكتبة البحوث والتقارير</h2>
+      <div class="tools hide" id="tools"><input id="q" type="search" placeholder="ابحث عن عنوان…" oninput="render()"><select id="ty" onchange="render()"></select></div>
+    </div>
+    <div id="lock" class="lock"><h3 style="color:var(--ink)">سجّل دخولك لعرض البحوث</h3><p style="color:var(--mut);margin:6px 0 16px">المكتبة متاحة للطلبة المسجلين فقط.</p><button class="btn blue" onclick="openM('mReg')">إنشاء حساب</button></div>
+    <div id="lib" class="hide"><div class="chips" id="chips"></div><div class="grid" id="grid"></div></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div><div class="logo" style="color:#fff">منصة بحوثي</div><div style="font-size:.9rem">خدمة أكاديمية لطلبة الجامعات العراقية</div></div>
+    <div class="soc" id="soc"></div>
+  </div>
+  <div class="copy">© <span id="yr"></span> منصة بحوثي · <a onclick="openM('mAdminLogin')">لوحة الإدارة</a></div>
+</footer>
+
+<!-- Modals -->
+<div class="modal" id="mReg"><div class="box"><button class="x" onclick="closeM()" aria-label="إغلاق">×</button>
+  <h2>إنشاء حساب طالب</h2>
+  <label>الاسم الكامل</label><input id="rN">
+  <label>البريد الإلكتروني</label><input id="rE" type="email" dir="ltr">
+  <label>الجامعة والكلية</label><input id="rU" placeholder="مثال: جامعة بغداد - كلية الإدارة">
+  <label>كلمة المرور (6 أحرف على الأقل)</label><input id="rP" type="password" dir="ltr">
+  <div class="msg bad" id="rM"></div>
+  <button class="btn blue" style="width:100%;margin-top:8px" onclick="register()">تسجيل</button>
+  <p style="text-align:center;margin-top:10px;font-size:.9rem">لديك حساب؟ <a href="#" onclick="openM('mLogin');return false" style="color:var(--lapis);font-weight:600">سجّل الدخول</a></p>
+</div></div>
+
+<div class="modal" id="mLogin"><div class="box"><button class="x" onclick="closeM()" aria-label="إغلاق">×</button>
+  <h2>تسجيل الدخول</h2>
+  <label>البريد الإلكتروني</label><input id="lE" type="email" dir="ltr">
+  <label>كلمة المرور</label><input id="lP" type="password" dir="ltr">
+  <div class="msg bad" id="lM"></div>
+  <button class="btn blue" style="width:100%;margin-top:8px" onclick="login()">دخول</button>
+</div></div>
+
+<div class="modal" id="mAdminLogin"><div class="box"><button class="x" onclick="closeM()" aria-label="إغلاق">×</button>
+  <h2>لوحة الإدارة</h2>
+  <label>كلمة مرور الإدارة</label><input id="aP" type="password" dir="ltr">
+  <div class="msg bad" id="aM"></div>
+  <button class="btn blue" style="width:100%;margin-top:8px" onclick="adminLogin()">دخول</button>
+</div></div>
+
+<div class="modal" id="mAdmin"><div class="box wide"><button class="x" onclick="closeM()" aria-label="إغلاق">×</button>
+  <h2>لوحة الإدارة</h2>
+  <div class="tabs">
+    <button class="chip on" onclick="tab(this,'tR')">البحوث</button>
+    <button class="chip" onclick="tab(this,'tA')">الإعلانات</button>
+    <button class="chip" onclick="tab(this,'tS')">التواصل الاجتماعي</button>
+    <button class="chip" onclick="tab(this,'tG')">الإعدادات</button>
+  </div>
+  <div id="tR" class="pane">
+    <label>العنوان</label><input id="nT">
+    <label>الاختصاص</label><input id="nS" list="specs" placeholder="مثال: الطب">
+    <datalist id="specs"></datalist>
+    <label>النوع</label><select id="nY"><option>بحث</option><option>تقرير</option><option>مشروع تخرج</option><option>ملخص</option><option>عرض تقديمي</option></select>
+    <label>الوصف</label><textarea id="nD" rows="2"></textarea>
+    <button class="btn blue sm" style="margin-top:10px" onclick="addR()">إضافة البحث</button>
+    <div id="lR" style="margin-top:14px;max-height:220px;overflow:auto"></div>
+  </div>
+  <div id="tA" class="pane hide">
+    <label>نص الإعلان</label><input id="nA">
+    <button class="btn blue sm" style="margin-top:10px" onclick="addA()">نشر الإعلان</button>
+    <div id="lA" style="margin-top:14px"></div>
+  </div>
+  <div id="tS" class="pane hide">
+    <label>اسم المنصة (مثال: انستغرام)</label><input id="nSn">
+    <label>الرابط</label><input id="nSu" dir="ltr" placeholder="https://">
+    <button class="btn blue sm" style="margin-top:10px" onclick="addS()">إضافة</button>
+    <div id="lS" style="margin-top:14px"></div>
+  </div>
+  <div id="tG" class="pane hide">
+    <label>رقم واتساب لاستلام الطلبات (بصيغة دولية بدون +)</label><input id="gW" dir="ltr" placeholder="9647XXXXXXXXX">
+    <label>كلمة مرور الإدارة الجديدة</label><input id="gP" type="password" dir="ltr">
+    <button class="btn blue sm" style="margin-top:10px" onclick="saveG()">حفظ</button>
+    <div class="msg ok" id="gM"></div>
+  </div>
+</div></div>
+
+<div class="toast hide" id="toast" role="status"></div>
+
+<script>
+const K='bohothi_v1';
+const def={
+  whatsapp:'9647700000000',adminPass:'admin123',
+  ads:['أهلاً بكم في منصة بحوثي — سجّلوا الآن واختاروا بحثكم','خدمة تنسيق وتدقيق البحوث متاحة لطلبة الدراسات العليا'],
+  social:[{n:'تلغرام',u:'https://t.me/'},{n:'انستغرام',u:'https://instagram.com/'},{n:'فيسبوك',u:'https://facebook.com/'}],
+  users:[],session:null,
+  res:[
+    ['أثر الذكاء الاصطناعي في التعليم الجامعي','علوم الحاسوب','بحث','دراسة تحليلية لتطبيقات الذكاء الاصطناعي في الجامعات العراقية.'],
+    ['أمن الشبكات وحماية البيانات','علوم الحاسوب','تقرير','تقرير عن أساليب الحماية الحديثة للشبكات المؤسسية.'],
+    ['التضخم وأثره على القوة الشرائية في العراق','الاقتصاد','بحث','بحث اقتصادي يحلل مؤشرات التضخم خلال العقد الأخير.'],
+    ['دور المصارف الخاصة في التنمية','الإدارة والمالية','بحث','دراسة ميدانية لدور القطاع المصرفي الخاص.'],
+    ['إدارة الجودة الشاملة في المؤسسات','الإدارة والمالية','تقرير','تقرير عن مبادئ الجودة الشاملة وتطبيقاتها.'],
+    ['مقاومة المضادات الحيوية','الطب والصيدلة','بحث','مراجعة علمية لأسباب مقاومة البكتيريا وسبل الحد منها.'],
+    ['التغذية العلاجية لمرضى السكري','الطب والصيدلة','تقرير','تقرير سريري مبسط عن الأنظمة الغذائية العلاجية.'],
+    ['تصميم الجسور المعلقة','الهندسة','مشروع تخرج','مشروع تصميم إنشائي مع الحسابات والمخططات.'],
+    ['الطاقة الشمسية لتوليد الكهرباء في العراق','الهندسة','بحث','جدوى فنية واقتصادية لمحطات الطاقة الشمسية.'],
+    ['أساليب تدريس اللغة الإنجليزية','التربية','بحث','مقارنة بين الأساليب الحديثة والتقليدية في التدريس.'],
+    ['الحقوق الدستورية في دستور العراق 2005','القانون','بحث','دراسة قانونية مقارنة للحقوق والحريات.'],
+    ['التلوث البيئي في نهر دجلة','العلوم','تقرير','تقرير ميداني عن مصادر التلوث ومعالجتها.'],
+    ['الشعر العربي الحديث في العراق','اللغة العربية والآداب','بحث','دراسة نقدية لأعلام الشعر الحديث.']
+  ].map((r,i)=>({id:i+1,t:r[0],s:r[1],y:r[2],d:r[3]}))
+};
+let D;try{D=JSON.parse(localStorage.getItem(K))}catch(e){}
+D=Object.assign({},def,D||{});
+const save=()=>{try{localStorage.setItem(K,JSON.stringify(D))}catch(e){}};
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let spec='الكل',isAdmin=false;
+
+function toast(t){const e=$('toast');e.textContent=t;e.classList.remove('hide');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.add('hide'),5000)}
+function notify(t,b){try{if('Notification' in window){const f=()=>new Notification(t,{body:b});Notification.permission==='granted'?f():Notification.permission!=='denied'&&Notification.requestPermission().then(p=>p==='granted'&&f())}}catch(e){}}
+function openM(id){closeM();$(id).classList.add('open')}
+function closeM(){document.querySelectorAll('.modal').forEach(m=>m.classList.remove('open'))}
+document.addEventListener('keydown',e=>e.key==='Escape'&&closeM());
+
+async function hash(s){try{const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}catch(e){return btoa(unescape(encodeURIComponent(s)))}}
+
+async function register(){
+  const n=$('rN').value.trim(),e=$('rE').value.trim().toLowerCase(),u=$('rU').value.trim(),p=$('rP').value,m=$('rM');
+  if(!n||!u)return m.textContent='أدخل الاسم والجامعة';
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e))return m.textContent='البريد الإلكتروني غير صحيح';
+  if(p.length<6)return m.textContent='كلمة المرور قصيرة';
+  if(D.users.some(x=>x.e===e))return m.textContent='هذا البريد مسجّل مسبقاً، سجّل الدخول';
+  D.users.push({n,e,u,p:await hash(p)});D.session=e;save();m.textContent='';closeM();ui();
+  toast('تم تسجيلك بنجاح يا '+n+' — يمكنك الآن اختيار بحثك');notify('منصة بحوثي','تم تفعيل حسابك بنجاح، اختر بحثك الآن');
+}
+async function login(){
+  const e=$('lE').value.trim().toLowerCase(),p=await hash($('lP').value),u=D.users.find(x=>x.e===e&&x.p===p);
+  if(!u)return $('lM').textContent='البريد أو كلمة المرور غير صحيحة';
+  D.session=e;save();$('lM').textContent='';closeM();ui();toast('أهلاً بعودتك '+u.n);
+}
+function logout(){D.session=null;save();ui()}
+const me=()=>D.users.find(x=>x.e===D.session);
+
+function pick(id){
+  const u=me(),r=D.res.find(x=>x.id===id);if(!u||!r)return;
+  const t=`السلام عليكم، أنا ${u.n}\nالجامعة: ${u.u}\nالإيميل: ${u.e}\nاخترت (${r.y}): ${r.t}\nالاختصاص: ${r.s}\nأرجو التواصل معي.`;
+  notify('تم إرسال طلبك','سيتواصل معك المشرف على واتساب');
+  toast('جارٍ فتح واتساب لإرسال طلبك…');
+  window.open('https://wa.me/'+D.whatsapp.replace(/\D/g,'')+'?text='+encodeURIComponent(t),'_blank');
+}
+
+function ui(){
+  const u=me();
+  $('guest').classList.toggle('hide',!!u);$('user').classList.toggle('hide',!u);
+  if(u)$('uName').textContent=u.n;
+  $('lock').classList.toggle('hide',!!u);$('lib').classList.toggle('hide',!u);$('tools').classList.toggle('hide',!u);
+  $('adsText').textContent=D.ads.join('   ★   ')||'مرحباً بكم';
+  $('ads').classList.toggle('hide',!D.ads.length);
+  $('sR').textContent=D.res.length;$('sS').textContent=new Set(D.res.map(r=>r.s)).size;$('sU').textContent=D.users.length;
+  $('soc').innerHTML=D.social.map(s=>`<a href="${esc(s.u)}" target="_blank" rel="noopener">${esc(s.n)}</a>`).join('');
+  const sp=[...new Set(D.res.map(r=>r.s))];
+  $('chips').innerHTML=['الكل',...sp].map(s=>`<button class="chip ${s===spec?'on':''}" data-s="${esc(s)}">${esc(s)}</button>`).join('');
+  $('chips').querySelectorAll('.chip').forEach(b=>b.onclick=()=>{spec=b.dataset.s;ui()});
+  const ty=['كل الأنواع',...new Set(D.res.map(r=>r.y))],cur=$('ty').value;
+  $('ty').innerHTML=ty.map(t=>`<option>${esc(t)}</option>`).join('');if(ty.includes(cur))$('ty').value=cur;
+  $('specs').innerHTML=sp.map(s=>`<option value="${esc(s)}">`).join('');
+  render();
+}
+function render(){
+  const q=$('q').value.trim(),ty=$('ty').value;
+  const L=D.res.filter(r=>(spec==='الكل'||r.s===spec)&&(ty==='كل الأنواع'||r.y===ty)&&(!q||(r.t+r.d).includes(q)));
+  $('grid').innerHTML=L.length?L.map(r=>`<article class="card"><span class="tag">${esc(r.s)}</span><span class="typ">${esc(r.y)}</span><h3>${esc(r.t)}</h3><p>${esc(r.d)}</p><div class="row"><button class="btn blue sm" onclick="pick(${r.id})">اختر هذا البحث</button></div></article>`).join(''):'<div class="empty">لا توجد نتائج مطابقة. جرّب اختصاصاً آخر أو كلمة مختلفة.</div>';
+}
+
+/* admin */
+function adminLogin(){
+  if($('aP').value!==D.adminPass)return $('aM').textContent='كلمة المرور غير صحيحة';
+  $('aM').textContent='';$('aP').value='';isAdmin=true;openM('mAdmin');adm();
+}
+function tab(b,id){document.querySelectorAll('.tabs .chip').forEach(x=>x.classList.remove('on'));b.classList.add('on');document.querySelectorAll('.pane').forEach(p=>p.classList.add('hide'));$(id).classList.remove('hide')}
+function adm(){
+  $('lR').innerHTML=D.res.map(r=>`<div class="li"><span>${esc(r.t)} <small>(${esc(r.s)})</small></span><button class="btn red sm" onclick="delR(${r.id})">حذف</button></div>`).join('');
+  $('lA').innerHTML=D.ads.map((a,i)=>`<div class="li"><span>${esc(a)}</span><button class="btn red sm" onclick="delA(${i})">حذف</button></div>`).join('')||'لا توجد إعلانات';
+  $('lS').innerHTML=D.social.map((s,i)=>`<div class="li"><span>${esc(s.n)}</span><button class="btn red sm" onclick="delS(${i})">حذف</button></div>`).join('');
+  $('gW').value=D.whatsapp;
+}
+function addR(){
+  const t=$('nT').value.trim(),s=$('nS').value.trim();if(!t||!s)return;
+  D.res.unshift({id:Date.now(),t,s,y:$('nY').value,d:$('nD').value.trim()});
+  ['nT','nS','nD'].forEach(i=>$(i).value='');save();ui();adm();
+}
+const delR=id=>{D.res=D.res.filter(r=>r.id!==id);save();ui();adm()};
+function addA(){const a=$('nA').value.trim();if(!a)return;D.ads.unshift(a);$('nA').value='';save();ui();adm();notify('إعلان جديد',a)}
+const delA=i=>{D.ads.splice(i,1);save();ui();adm()};
+function addS(){const n=$('nSn').value.trim(),u=$('nSu').value.trim();if(!n||!/^https?:\/\//.test(u))return;D.social.push({n,u});$('nSn').value=$('nSu').value='';save();ui();adm()}
+const delS=i=>{D.social.splice(i,1);save();ui();adm()};
+function saveG(){
+  const w=$('gW').value.replace(/\D/g,'');if(w)D.whatsapp=w;
+  if($('gP').value.length>=6){D.adminPass=$('gP').value;$('gP').value=''}
+  save();$('gM').textContent='تم الحفظ'
+}
+$('yr').textContent=new Date().getFullYear();
+ui();
+</script>
+</body>
+</html>
