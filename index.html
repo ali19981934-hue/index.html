@@ -81,6 +81,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;
 .x{position:absolute;top:12px;left:14px;border:0;background:none;font-size:1.6rem;cursor:pointer;color:var(--mut)}
 label{display:block;font-size:.9rem;font-weight:600;margin:10px 0 4px}
 .box input,.box select,.box textarea{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:10px 12px}
+.rf input,.rf select,.rf textarea{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;background:#fff}
+.rf .g{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:0 16px}
 .msg{font-size:.9rem;margin-top:10px;min-height:1.4em}
 .msg.bad{color:var(--bad)}.msg.ok{color:var(--ok)}
 .tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
@@ -128,6 +130,30 @@ label{display:block;font-size:.9rem;font-weight:600;margin:10px 0 4px}
   </div>
 </section>
 
+<section id="request" style="padding-bottom:20px">
+  <div class="wrap">
+    <div class="sec-h"><h2>اطلب بحثك أو تقريرك</h2></div>
+    <div id="reqLock" class="lock"><h3 style="color:var(--ink)">سجّل دخولك لتقديم طلبك</h3><p style="color:var(--mut);margin:6px 0 16px">أنشئ حساباً بالإيميل ثم اكتب تفاصيل بحثك.</p><button class="btn blue" onclick="openM('mReg')">إنشاء حساب</button></div>
+    <div id="reqForm" class="rf hide" style="background:#fff;border:1px solid var(--line);border-top:4px solid var(--gold);border-radius:16px;padding:24px">
+      <label>عنوان البحث أو الموضوع</label><input id="qT" placeholder="اكتب موضوع بحثك كما تريده">
+      <div class="g">
+        <div><label>الكلية (تصنيف الجامعات العراقية)</label><select id="qC"></select></div>
+        <div><label>القسم / الفرع</label><input id="qD" placeholder="مثال: قسم المحاسبة"></div>
+        <div><label>المرحلة</label><select id="qL"><option>بكالوريوس</option><option>دبلوم</option><option>ماجستير</option><option>دكتوراه</option></select></div>
+        <div><label>النوع</label><select id="qY"><option>بحث</option><option>تقرير</option><option>مشروع تخرج</option><option>ملخص</option><option>عرض تقديمي</option></select></div>
+        <div><label>عدد الأوراق</label><input id="qP" type="number" min="1" value="15"></div>
+        <div><label>لغة البحث</label><select id="qG"><option>العربية</option><option>الإنجليزية</option></select></div>
+        <div><label>عدد المصادر المطلوب</label><input id="qS" type="number" min="0" placeholder="مثال: 10"></div>
+        <div><label>موعد التسليم</label><input id="qE" type="date"></div>
+        <div><label>رقم واتساب الطالب</label><input id="qW" dir="ltr" placeholder="07XXXXXXXXX"></div>
+      </div>
+      <label>تفاصيل وملاحظات (توجيهات الأستاذ، التنسيق، أي متطلبات خاصة)</label><textarea id="qN" rows="4"></textarea>
+      <div class="msg" id="qM"></div>
+      <button class="btn blue" style="width:100%;margin-top:6px" onclick="sendReq()">إرسال الطلب عبر واتساب</button>
+    </div>
+  </div>
+</section>
+
 <section id="catalog" style="padding-top:0">
   <div class="wrap">
     <div class="sec-h">
@@ -165,21 +191,6 @@ label{display:block;font-size:.9rem;font-weight:600;margin:10px 0 4px}
   <label>كلمة المرور</label><input id="lP" type="password" dir="ltr">
   <div class="msg bad" id="lM"></div>
   <button class="btn blue" style="width:100%;margin-top:8px" onclick="login()">دخول</button>
-</div></div>
-
-<div class="modal" id="mReq"><div class="box wide"><button class="x" onclick="closeM()" aria-label="إغلاق">×</button>
-  <h2>اطلب بحثك أو تقريرك</h2>
-  <label>عنوان البحث أو الموضوع</label><input id="qT">
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0 14px">
-    <div><label>الكلية (تصنيف الجامعات العراقية)</label><select id="qC"></select></div>
-    <div><label>القسم / الفرع</label><input id="qD"></div>
-    <div><label>المرحلة</label><select id="qL"><option>بكالوريوس</option><option>دبلوم</option><option>ماجستير</option><option>دكتوراه</option></select></div>
-    <div><label>النوع</label><select id="qY"><option>بحث</option><option>تقرير</option><option>مشروع تخرج</option><option>ملخص</option><option>عرض تقديمي</option></select></div>
-    <div><label>عدد الصفحات</label><input id="qP" type="number" min="1" value="15"></div>
-  </div>
-  <label>تفاصيل وملاحظات (توجيهات الأستاذ، المصادر، الموعد النهائي)</label><textarea id="qN" rows="3"></textarea>
-  <div class="msg" id="qM"></div>
-  <button class="btn blue" style="width:100%" onclick="sendReq()">إرسال الطلب عبر واتساب</button>
 </div></div>
 
 <div class="modal" id="mAdminLogin"><div class="box"><button class="x" onclick="closeM()" aria-label="إغلاق">×</button>
@@ -298,13 +309,13 @@ const COL={'الكليات الطبية والصحية':['الطب','طب الأ
 'الكليات الإنسانية والاجتماعية':['الإدارة والاقتصاد','القانون','التربية','التربية الأساسية','التربية البدنية وعلوم الرياضة','الآداب','اللغات','العلوم السياسية','الإعلام','الفنون الجميلة','العلوم الإسلامية','الشريعة']};
 function needLogin(){me()?openReq():openM('mReg')}
 function pick(id){openReq(id)}
-function openReq(id){const r=D.res.find(x=>x.id===id);$('qT').value=r?r.t:'';$('qN').value=r?r.d:'';$('qM').textContent='';openM('mReq')}
+function openReq(id){const r=D.res.find(x=>x.id===id);if(r){$('qT').value=r.t;$('qN').value=r.d}$('qM').textContent='';$('request').scrollIntoView({behavior:'smooth'})}
 function sendReq(){
   const u=me(),t=$('qT').value.trim(),m=$('qM');if(!u)return;
   if(!t){m.className='msg bad';return m.textContent='اكتب عنوان البحث'}
-  const x=`السلام عليكم، أنا ${u.n}\nالجامعة: ${u.u}\nالإيميل: ${u.e}\n\nالمرحلة: ${$('qL').value}\nالكلية: ${$('qC').value}\nالقسم: ${$('qD').value||'-'}\nالنوع: ${$('qY').value} (${$('qP').value} صفحة)\nالعنوان: ${t}\nالملاحظات: ${$('qN').value||'-'}`;
+  const x=`السلام عليكم، أنا ${u.n}\nالجامعة: ${u.u}\nالإيميل: ${u.e}\n\nالمرحلة: ${$('qL').value}\nالكلية: ${$('qC').value}\nالقسم: ${$('qD').value||'-'}\nالنوع: ${$('qY').value} (${$('qP').value} ورقة)\nاللغة: ${$('qG').value}\nعدد المصادر: ${$('qS').value||'-'}\nموعد التسليم: ${$('qE').value||'-'}\nواتساب الطالب: ${$('qW').value||'-'}\nالعنوان: ${t}\nالملاحظات: ${$('qN').value||'-'}`;
   closeM();notify('تم إرسال طلبك','سيتواصل معك المشرف على واتساب');toast('جارٍ فتح واتساب لإرسال طلبك…');
-  window.open('https://wa.me/'+D.whatsapp.replace(/\D/g,'')+'?text='+encodeURIComponent(x),'_blank');
+  window.open('https://wa.me/'+D.whatsapp.replace(/\D/g,'')+'?text='+encodeURIComponent(x),'_blank');['qT','qD','qN','qE','qS'].forEach(i=>$(i).value='');
 }
 async function publish(){
   const t=$('pT').value.trim(),m=$('pM');if(!t)return;
@@ -320,7 +331,7 @@ function ui(){
   const u=me();
   $('guest').classList.toggle('hide',!!u);$('user').classList.toggle('hide',!u);
   if(u)$('uName').textContent=u.n;
-  $('lock').classList.toggle('hide',!!u);$('lib').classList.toggle('hide',!u);$('tools').classList.toggle('hide',!u);
+  $('reqLock').classList.toggle('hide',!!u);$('reqForm').classList.toggle('hide',!u);$('lock').classList.toggle('hide',!!u);$('lib').classList.toggle('hide',!u);$('tools').classList.toggle('hide',!u);
   $('adsText').textContent=D.ads.join('   ★   ')||'مرحباً بكم';
   $('ads').classList.toggle('hide',!D.ads.length);
   $('sR').textContent=D.res.length;$('sS').textContent=new Set(D.res.map(r=>r.s)).size;$('sU').textContent=D.users.length;
