@@ -47,8 +47,8 @@ section{padding:56px 0}
 .sec-h h2{font-size:1.9rem;color:var(--ink)}
 .tools{display:flex;gap:10px;flex-wrap:wrap}
 .tools input,.tools select{border:1.5px solid var(--line);border-radius:10px;padding:9px 14px;background:#fff;min-width:190px}
-.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
-.chip{border:1.5px solid var(--line);background:#fff;border-radius:99px;padding:5px 16px;cursor:pointer;font-size:.92rem}
+.chips{display:flex;gap:8px;flex-wrap:nowrap;overflow-x:auto;padding-bottom:10px;margin-bottom:14px}
+.chip{white-space:nowrap;flex:none;border:1.5px solid var(--line);background:#fff;border-radius:99px;padding:5px 16px;cursor:pointer;font-size:.92rem}
 .chip.on{background:var(--lapis);color:#fff;border-color:var(--lapis)}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;border-top:4px solid var(--lapis);display:flex;flex-direction:column;gap:10px}
@@ -83,6 +83,12 @@ label{display:block;font-size:.9rem;font-weight:600;margin:10px 0 4px}
 .box input,.box select,.box textarea{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:10px 12px}
 .rf input,.rf select,.rf textarea{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;background:#fff}
 .rf .g{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:0 16px}
+.post{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.post:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(12,31,74,.12)}
+.pic{aspect-ratio:16/10;background:linear-gradient(135deg,var(--lapis),var(--ink)) center/cover;position:relative;display:grid;place-items:center;color:var(--gold2);font:700 3rem 'Reem Kufi'}
+.bd{position:absolute;bottom:12px;left:12px;background:rgba(12,31,74,.78);color:#fff;border-radius:10px;padding:2px 14px;font:500 .85rem 'IBM Plex Sans Arabic'}
+.pb{padding:18px}.pb h3{font-size:1.1rem;color:var(--ink);line-height:1.6;margin-bottom:6px}.pb p{color:var(--mut);font-size:.93rem}.pb a{display:inline-block;margin-top:8px;color:var(--lapis);font-weight:600}
+.top{position:fixed;bottom:22px;left:18px;width:50px;height:50px;border-radius:50%;border:0;background:var(--lapis);color:#fff;font-size:1.4rem;cursor:pointer;z-index:30;box-shadow:0 6px 18px rgba(0,0,0,.25)}
 .msg{font-size:.9rem;margin-top:10px;min-height:1.4em}
 .msg.bad{color:var(--bad)}.msg.ok{color:var(--ok)}
 .tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
@@ -114,7 +120,7 @@ label{display:block;font-size:.9rem;font-weight:600;margin:10px 0 4px}
     <div class="stats">
       <div class="stat"><span>بحث وتقرير</span><b id="sR">0</b></div>
       <div class="stat"><span>اختصاص أكاديمي</span><b id="sS">0</b></div>
-      <div class="stat"><span>طالب مسجّل</span><b id="sU">0</b></div>
+      <div class="stat"><span>خبر وإعلان</span><b id="sU">0</b></div>
     </div>
   </div>
 </div>
@@ -129,6 +135,11 @@ label{display:block;font-size:.9rem;font-weight:600;margin:10px 0 4px}
     </div>
   </div>
 </section>
+
+<section id="news" class="hide" style="padding-bottom:20px"><div class="wrap">
+    <div class="sec-h" style="border-bottom:2px solid var(--line);padding-bottom:12px"><h2 style="border-inline-start:5px solid var(--gold);padding-inline-start:12px">آخر الأخبار والإعلانات</h2></div>
+    <div class="grid" id="nGrid"></div>
+  </div></section>
 
 <section id="request" style="padding-bottom:20px">
   <div class="wrap">
@@ -158,7 +169,7 @@ label{display:block;font-size:.9rem;font-weight:600;margin:10px 0 4px}
   <div class="wrap">
     <div class="sec-h">
       <h2>مكتبة البحوث والتقارير</h2>
-      <div class="tools hide" id="tools"><input id="q" type="search" placeholder="ابحث عن عنوان…" oninput="render()"><select id="ty" onchange="render()"></select></div>
+      <div class="tools hide" id="tools"><input id="q" type="search" placeholder="ابحث عن عنوان…" oninput="shown=6;render()"><select id="ty" onchange="shown=6;render()"></select></div>
     </div>
     <div id="lock" class="lock"><h3 style="color:var(--ink)">سجّل دخولك لعرض البحوث</h3><p style="color:var(--mut);margin:6px 0 16px">المكتبة متاحة للطلبة المسجلين فقط.</p><button class="btn blue" onclick="openM('mReg')">إنشاء حساب</button></div>
     <div id="lib" class="hide"><div class="chips" id="chips"></div><div class="grid" id="grid"></div></div>
@@ -170,7 +181,7 @@ label{display:block;font-size:.9rem;font-weight:600;margin:10px 0 4px}
     <div><div class="logo" style="color:#fff">منصة بحوثي</div><div style="font-size:.9rem">خدمة أكاديمية لطلبة الجامعات العراقية</div></div>
     <div class="soc" id="soc"></div>
   </div>
-  <div class="copy">© <span id="yr"></span> منصة بحوثي · <a onclick="openM('mAdminLogin')">لوحة الإدارة</a></div>
+  <div class="copy">© <span id="yr"></span> منصة بحوثي · <a onclick="adminOpen()">لوحة الإدارة</a></div>
 </footer>
 
 <!-- Modals -->
@@ -193,9 +204,17 @@ label{display:block;font-size:.9rem;font-weight:600;margin:10px 0 4px}
   <button class="btn blue" style="width:100%;margin-top:8px" onclick="login()">دخول</button>
 </div></div>
 
+<div class="modal" id="mPost"><div class="box wide" style="padding:0;overflow:hidden"><button class="x" onclick="closeM()" aria-label="إغلاق" style="background:#fff;border-radius:50%;width:34px;height:34px;line-height:1;z-index:2">×</button>
+  <img id="pvI" alt="" style="width:100%;max-height:320px;object-fit:cover;display:none">
+  <div style="padding:22px"><h2 id="pvT"></h2><p id="pvX" style="white-space:pre-wrap;color:var(--mut)"></p></div>
+</div></div>
+
+<button class="top hide" id="toTop" onclick="scrollTo({top:0,behavior:'smooth'})" aria-label="للأعلى">↑</button>
+
 <div class="modal" id="mAdminLogin"><div class="box"><button class="x" onclick="closeM()" aria-label="إغلاق">×</button>
   <h2>لوحة الإدارة</h2>
-  <label>كلمة مرور الإدارة</label><input id="aP" type="password" dir="ltr">
+  <label>بريد الإدارة</label><input id="aE" type="email" dir="ltr">
+  <label>كلمة المرور</label><input id="aP" type="password" dir="ltr">
   <div class="msg bad" id="aM"></div>
   <button class="btn blue" style="width:100%;margin-top:8px" onclick="adminLogin()">دخول</button>
 </div></div>
@@ -206,6 +225,8 @@ label{display:block;font-size:.9rem;font-weight:600;margin:10px 0 4px}
     <button class="chip on" onclick="tab(this,'tR')">البحوث</button>
     <button class="chip" onclick="tab(this,'tA')">الإعلانات</button>
     <button class="chip" onclick="tab(this,'tS')">التواصل الاجتماعي</button>
+    <button class="chip" onclick="tab(this,'tQ')">طلبات الطلبة</button>
+    <button class="chip" onclick="tab(this,'tN')">الأخبار والصور</button>
     <button class="chip" onclick="tab(this,'tP')">نشر على المنصات</button>
     <button class="chip" onclick="tab(this,'tG')">الإعدادات</button>
   </div>
@@ -215,7 +236,7 @@ label{display:block;font-size:.9rem;font-weight:600;margin:10px 0 4px}
     <datalist id="specs"></datalist>
     <label>النوع</label><select id="nY"><option>بحث</option><option>تقرير</option><option>مشروع تخرج</option><option>ملخص</option><option>عرض تقديمي</option></select>
     <label>الوصف</label><textarea id="nD" rows="2"></textarea>
-    <button class="btn blue sm" style="margin-top:10px" onclick="addR()">إضافة البحث</button>
+    <button class="btn blue sm" style="margin-top:10px" onclick="addR()">إضافة البحث</button> <button class="btn line sm" style="background:var(--ink)" onclick="seedRes()">استيراد بحوث تجريبية</button>
     <div id="lR" style="margin-top:14px;max-height:220px;overflow:auto"></div>
   </div>
   <div id="tA" class="pane hide">
@@ -229,10 +250,21 @@ label{display:block;font-size:.9rem;font-weight:600;margin:10px 0 4px}
     <button class="btn blue sm" style="margin-top:10px" onclick="addS()">إضافة</button>
     <div id="lS" style="margin-top:14px"></div>
   </div>
+  <div id="tQ" class="pane hide"><div id="lQ" style="max-height:340px;overflow:auto">لا توجد طلبات</div></div>
+  <div id="tN" class="pane hide">
+    <label>عنوان الخبر أو الإعلان</label><input id="wT">
+    <label>النص</label><textarea id="wX" rows="3"></textarea>
+    <label>صورة من جهازك</label><input id="wF" type="file" accept="image/*">
+    <label>أو رابط صورة (مثال: images/photo1.jpg)</label><input id="wU" dir="ltr">
+    <button class="btn blue sm" style="margin-top:10px" onclick="addN()">نشر الخبر</button>
+    <div class="msg ok" id="wM"></div>
+    <div id="lN" style="margin-top:10px;max-height:200px;overflow:auto"></div>
+  </div>
   <div id="tP" class="pane hide">
     <label>نص المنشور</label><textarea id="pT" rows="3"></textarea>
     <label>رابط صورة (إلزامي لانستغرام)</label><input id="pU" dir="ltr" placeholder="https://">
     <label style="font-weight:400"><input type="checkbox" id="pAd" checked style="width:auto"> إظهاره كإعلان للطلبة في المنصة</label>
+    <label style="font-weight:400"><input type="checkbox" id="pN" checked style="width:auto"> إضافته كخبر بصورة في المنصة</label>
     <label style="font-weight:400"><input type="checkbox" id="pF" checked style="width:auto"> فيسبوك</label>
     <label style="font-weight:400"><input type="checkbox" id="pI" checked style="width:auto"> انستغرام</label>
     <button class="btn blue sm" style="margin-top:10px" onclick="publish()">نشر</button>
@@ -241,7 +273,6 @@ label{display:block;font-size:.9rem;font-weight:600;margin:10px 0 4px}
   <div id="tG" class="pane hide">
     <label>رقم واتساب لاستلام الطلبات (بصيغة دولية بدون +)</label><input id="gW" dir="ltr" placeholder="9647XXXXXXXXX">
     <label>رابط النشر على المنصات (Make Webhook)</label><input id="gH" dir="ltr" placeholder="https://hook.make.com/...">
-    <label>كلمة مرور الإدارة الجديدة</label><input id="gP" type="password" dir="ltr">
     <button class="btn blue sm" style="margin-top:10px" onclick="saveG()">حفظ</button>
     <div class="msg ok" id="gM"></div>
   </div>
@@ -249,96 +280,110 @@ label{display:block;font-size:.9rem;font-weight:600;margin:10px 0 4px}
 
 <div class="toast hide" id="toast" role="status"></div>
 
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script>
-const K='bohothi_v1';
-const def={
-  whatsapp:'9647700000000',adminPass:'admin123',
-  ads:['أهلاً بكم في منصة بحوثي — سجّلوا الآن واختاروا بحثكم','خدمة تنسيق وتدقيق البحوث متاحة لطلبة الدراسات العليا'],
-  social:[{n:'تلغرام',u:'https://t.me/'},{n:'انستغرام',u:'https://instagram.com/'},{n:'فيسبوك',u:'https://facebook.com/'}],
-  users:[],session:null,
-  res:[
-    ['أثر الذكاء الاصطناعي في التعليم الجامعي','علوم الحاسوب','بحث','دراسة تحليلية لتطبيقات الذكاء الاصطناعي في الجامعات العراقية.'],
-    ['أمن الشبكات وحماية البيانات','علوم الحاسوب','تقرير','تقرير عن أساليب الحماية الحديثة للشبكات المؤسسية.'],
-    ['التضخم وأثره على القوة الشرائية في العراق','الاقتصاد','بحث','بحث اقتصادي يحلل مؤشرات التضخم خلال العقد الأخير.'],
-    ['دور المصارف الخاصة في التنمية','الإدارة والمالية','بحث','دراسة ميدانية لدور القطاع المصرفي الخاص.'],
-    ['إدارة الجودة الشاملة في المؤسسات','الإدارة والمالية','تقرير','تقرير عن مبادئ الجودة الشاملة وتطبيقاتها.'],
-    ['مقاومة المضادات الحيوية','الطب والصيدلة','بحث','مراجعة علمية لأسباب مقاومة البكتيريا وسبل الحد منها.'],
-    ['التغذية العلاجية لمرضى السكري','الطب والصيدلة','تقرير','تقرير سريري مبسط عن الأنظمة الغذائية العلاجية.'],
-    ['تصميم الجسور المعلقة','الهندسة','مشروع تخرج','مشروع تصميم إنشائي مع الحسابات والمخططات.'],
-    ['الطاقة الشمسية لتوليد الكهرباء في العراق','الهندسة','بحث','جدوى فنية واقتصادية لمحطات الطاقة الشمسية.'],
-    ['أساليب تدريس اللغة الإنجليزية','التربية','بحث','مقارنة بين الأساليب الحديثة والتقليدية في التدريس.'],
-    ['الحقوق الدستورية في دستور العراق 2005','القانون','بحث','دراسة قانونية مقارنة للحقوق والحريات.'],
-    ['التلوث البيئي في نهر دجلة','العلوم','تقرير','تقرير ميداني عن مصادر التلوث ومعالجتها.'],
-    ['الشعر العربي الحديث في العراق','اللغة العربية والآداب','بحث','دراسة نقدية لأعلام الشعر الحديث.']
-  ].map((r,i)=>({id:i+1,t:r[0],s:r[1],y:r[2],d:r[3]}))
-};
-let D;try{D=JSON.parse(localStorage.getItem(K))}catch(e){}
-D=Object.assign({},def,D||{});
-const save=()=>{try{localStorage.setItem(K,JSON.stringify(D))}catch(e){}};
+/* ===== الصق بيانات Firebase هنا ===== */
+const CFG={apiKey:"AIzaSyCl2OmuWn9dq7nTMfU7pYfQEeD0R-kzCqA",authDomain:"index-6ee24.firebaseapp.com",projectId:"index-6ee24",appId:"1:226504060595:web:821ca439657cc6b52b8ac6"};
+const ADMIN_EMAIL="ali19981933@gmail.com";
+/* ==================================== */
+const ON=!CFG.apiKey.startsWith('PASTE');
+const SEED=[['أثر الذكاء الاصطناعي في التعليم الجامعي','علوم الحاسوب','بحث','دراسة تحليلية لتطبيقات الذكاء الاصطناعي في الجامعات العراقية.'],['أمن الشبكات وحماية البيانات','علوم الحاسوب','تقرير','تقرير عن أساليب الحماية الحديثة للشبكات.'],['التضخم وأثره على القوة الشرائية في العراق','الاقتصاد','بحث','بحث اقتصادي يحلل مؤشرات التضخم.'],['دور المصارف الخاصة في التنمية','الإدارة والمالية','بحث','دراسة ميدانية للقطاع المصرفي الخاص.'],['إدارة الجودة الشاملة','الإدارة والمالية','تقرير','مبادئ الجودة الشاملة وتطبيقاتها.'],['مقاومة المضادات الحيوية','الطب والصيدلة','بحث','مراجعة علمية لأسباب مقاومة البكتيريا.'],['تصميم الجسور المعلقة','الهندسة','مشروع تخرج','تصميم إنشائي مع الحسابات والمخططات.'],['الطاقة الشمسية في العراق','الهندسة','بحث','جدوى فنية واقتصادية لمحطات الطاقة الشمسية.'],['أساليب تدريس اللغة الإنجليزية','التربية','بحث','مقارنة بين الأساليب الحديثة والتقليدية.'],['الحقوق الدستورية في دستور 2005','القانون','بحث','دراسة قانونية مقارنة للحقوق والحريات.'],['التلوث البيئي في نهر دجلة','العلوم','تقرير','تقرير ميداني عن مصادر التلوث.'],['الشعر العربي الحديث في العراق','اللغة العربية والآداب','بحث','دراسة نقدية لأعلام الشعر الحديث.']];
+const COL={'الكليات الطبية والصحية':['الطب','طب الأسنان','الصيدلة','التمريض','العلوم الصحية والطبية'],'الكليات العلمية والهندسية':['الهندسة','علوم الحاسوب وتكنولوجيا المعلومات','العلوم','العلوم التطبيقية','الزراعة','الطب البيطري','التقنيات الهندسية'],'الكليات الإنسانية والاجتماعية':['الإدارة والاقتصاد','القانون','التربية','التربية الأساسية','التربية البدنية وعلوم الرياضة','الآداب','اللغات','العلوم السياسية','الإعلام','الفنون الجميلة','العلوم الإسلامية','الشريعة']};
+const ERR={'auth/email-already-in-use':'هذا البريد مسجّل مسبقاً، سجّل الدخول','auth/weak-password':'كلمة المرور ضعيفة','auth/invalid-email':'البريد غير صحيح','auth/invalid-credential':'البريد أو كلمة المرور غير صحيحة','auth/too-many-requests':'محاولات كثيرة، انتظر قليلاً'};
+let D={whatsapp:'9647703433901',hookUrl:'',ads:['أهلاً بكم في منصة بحوثي — سجّلوا الآن واطلبوا بحثكم'],social:[{n:'تلغرام',u:'https://t.me/'},{n:'انستغرام',u:'https://instagram.com/'},{n:'فيسبوك',u:'https://facebook.com/'}],res:ON?[]:SEED.map((r,i)=>({id:'s'+i,t:r[0],s:r[1],y:r[2],d:r[3]})),posts:[],reqs:[]};
+let U=null,isAdmin=false,spec='الكل',shown=6,reg=false,db,auth,uRes=null,uReq=null;
 const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-let spec='الكل',isAdmin=false;
-
+const me=()=>U;
 function toast(t){const e=$('toast');e.textContent=t;e.classList.remove('hide');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.add('hide'),5000)}
 function notify(t,b){try{if('Notification' in window){const f=()=>new Notification(t,{body:b});Notification.permission==='granted'?f():Notification.permission!=='denied'&&Notification.requestPermission().then(p=>p==='granted'&&f())}}catch(e){}}
 function openM(id){closeM();$(id).classList.add('open')}
 function closeM(){document.querySelectorAll('.modal').forEach(m=>m.classList.remove('open'))}
 document.addEventListener('keydown',e=>e.key==='Escape'&&closeM());
+const off=()=>toast('المنصة غير مربوطة بـ Firebase بعد');
 
-async function hash(s){try{const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}catch(e){return btoa(unescape(encodeURIComponent(s)))}}
+/* ---------- Firebase ---------- */
+if(ON){
+  firebase.initializeApp(CFG);db=firebase.firestore();auth=firebase.auth();
+  const er=e=>console.warn(e.code);
+  db.doc('settings/main').onSnapshot(d=>{if(d.exists){const x=d.data();D.whatsapp=x.whatsapp||D.whatsapp;D.ads=x.ads||[];D.social=x.social||[]}ui();isAdmin&&adm()},er);
+  let f1=true;
+  db.collection('posts').orderBy('at','desc').onSnapshot(q=>{
+    if(!f1&&U)q.docChanges().forEach(c=>{if(c.type==='added'){toast('جديد: '+c.doc.data().title);notify('منصة بحوثي',c.doc.data().title)}});
+    f1=false;D.posts=q.docs.map(d=>({id:d.id,t:d.data().at,title:d.data().title,text:d.data().text||'',img:d.data().img||''}));ui();isAdmin&&adm();
+  },er);
+  auth.onAuthStateChanged(async u=>{
+    uRes&&uRes();uReq&&uReq();uRes=uReq=null;U=null;isAdmin=false;D.res=[];D.reqs=[];
+    if(u){
+      if(reg)await new Promise(r=>setTimeout(r,1500));reg=false;
+      try{const d=await db.doc('users/'+u.uid).get();U=d.exists?{...d.data(),uid:u.uid}:{n:u.email.split('@')[0],u:'-',e:u.email,uid:u.uid}}catch(e){U={n:u.email.split('@')[0],u:'-',e:u.email,uid:u.uid}}
+      isAdmin=u.email.toLowerCase()===ADMIN_EMAIL.toLowerCase();
+      uRes=db.collection('research').orderBy('at','desc').onSnapshot(q=>{D.res=q.docs.map(d=>({id:d.id,t:d.data().ti,s:d.data().s,y:d.data().y,d:d.data().d||''}));ui()},er);
+      if(isAdmin){
+        db.doc('private/hook').get().then(d=>{D.hookUrl=d.exists?d.data().url:'';adm()}).catch(er);
+        uReq=db.collection('requests').orderBy('at','desc').onSnapshot(q=>{D.reqs=q.docs.map(d=>({id:d.id,...d.data()}));adm()},er);
+      }
+    }
+    ui();
+  });
+}
 
+/* ---------- حسابات الطلبة ---------- */
 async function register(){
   const n=$('rN').value.trim(),e=$('rE').value.trim().toLowerCase(),u=$('rU').value.trim(),p=$('rP').value,m=$('rM');
   if(!n||!u)return m.textContent='أدخل الاسم والجامعة';
   if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e))return m.textContent='البريد الإلكتروني غير صحيح';
   if(p.length<6)return m.textContent='كلمة المرور قصيرة';
-  if(D.users.some(x=>x.e===e))return m.textContent='هذا البريد مسجّل مسبقاً، سجّل الدخول';
-  D.users.push({n,e,u,p:await hash(p)});D.session=e;save();m.textContent='';closeM();ui();
-  toast('تم تسجيلك بنجاح يا '+n+' — يمكنك الآن اختيار بحثك');notify('منصة بحوثي','تم تفعيل حسابك بنجاح، اختر بحثك الآن');
+  if(!ON)return off();
+  try{
+    reg=true;const c=await auth.createUserWithEmailAndPassword(e,p);
+    await db.doc('users/'+c.user.uid).set({n,u,e,at:Date.now()});
+    U={n,u,e,uid:c.user.uid};c.user.sendEmailVerification().catch(()=>{});
+    m.textContent='';closeM();ui();toast('تم تسجيلك يا '+n+' — أرسلنا رسالة تأكيد إلى بريدك');notify('منصة بحوثي','تم تفعيل حسابك بنجاح');
+  }catch(x){reg=false;m.textContent=ERR[x.code]||'تعذّر التسجيل، حاول مرة أخرى'}
 }
 async function login(){
-  const e=$('lE').value.trim().toLowerCase(),p=await hash($('lP').value),u=D.users.find(x=>x.e===e&&x.p===p);
-  if(!u)return $('lM').textContent='البريد أو كلمة المرور غير صحيحة';
-  D.session=e;save();$('lM').textContent='';closeM();ui();toast('أهلاً بعودتك '+u.n);
+  if(!ON)return off();
+  try{await auth.signInWithEmailAndPassword($('lE').value.trim(),$('lP').value);$('lM').textContent='';closeM()}
+  catch(x){$('lM').textContent=ERR[x.code]||'تعذّر الدخول'}
 }
-function logout(){D.session=null;save();ui()}
-const me=()=>D.users.find(x=>x.e===D.session);
+function logout(){ON&&auth.signOut()}
 
-const COL={'الكليات الطبية والصحية':['الطب','طب الأسنان','الصيدلة','التمريض','العلوم الصحية والطبية'],
-'الكليات العلمية والهندسية':['الهندسة','علوم الحاسوب وتكنولوجيا المعلومات','العلوم','العلوم التطبيقية','الزراعة','الطب البيطري','التقنيات الهندسية'],
-'الكليات الإنسانية والاجتماعية':['الإدارة والاقتصاد','القانون','التربية','التربية الأساسية','التربية البدنية وعلوم الرياضة','الآداب','اللغات','العلوم السياسية','الإعلام','الفنون الجميلة','العلوم الإسلامية','الشريعة']};
+/* ---------- الطلبات ---------- */
 function needLogin(){me()?openReq():openM('mReg')}
 function pick(id){openReq(id)}
 function openReq(id){const r=D.res.find(x=>x.id===id);if(r){$('qT').value=r.t;$('qN').value=r.d}$('qM').textContent='';$('request').scrollIntoView({behavior:'smooth'})}
 function sendReq(){
   const u=me(),t=$('qT').value.trim(),m=$('qM');if(!u)return;
   if(!t){m.className='msg bad';return m.textContent='اكتب عنوان البحث'}
-  const x=`السلام عليكم، أنا ${u.n}\nالجامعة: ${u.u}\nالإيميل: ${u.e}\n\nالمرحلة: ${$('qL').value}\nالكلية: ${$('qC').value}\nالقسم: ${$('qD').value||'-'}\nالنوع: ${$('qY').value} (${$('qP').value} ورقة)\nاللغة: ${$('qG').value}\nعدد المصادر: ${$('qS').value||'-'}\nموعد التسليم: ${$('qE').value||'-'}\nواتساب الطالب: ${$('qW').value||'-'}\nالعنوان: ${t}\nالملاحظات: ${$('qN').value||'-'}`;
-  closeM();notify('تم إرسال طلبك','سيتواصل معك المشرف على واتساب');toast('جارٍ فتح واتساب لإرسال طلبك…');
-  window.open('https://wa.me/'+D.whatsapp.replace(/\D/g,'')+'?text='+encodeURIComponent(x),'_blank');['qT','qD','qN','qE','qS'].forEach(i=>$(i).value='');
-}
-async function publish(){
-  const t=$('pT').value.trim(),m=$('pM');if(!t)return;
-  const pl=[$('pF').checked&&'facebook',$('pI').checked&&'instagram'].filter(Boolean);
-  if($('pAd').checked){D.ads.unshift(t);save();ui();adm()}
-  if(!pl.length){m.textContent='تم النشر داخل المنصة';return}
-  if(!D.hookUrl){m.textContent='نُشر داخل المنصة. لربط فيسبوك وانستغرام أضف رابط النشر في الإعدادات';return}
-  try{await fetch(D.hookUrl,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify({text:t,image:$('pU').value.trim(),platforms:pl})});m.textContent='أُرسل المنشور إلى: '+pl.join(' و ')}
-  catch(e){m.textContent='فشل الإرسال'}
+  const q={uid:u.uid,name:u.n,uni:u.u,email:u.e,level:$('qL').value,college:$('qC').value,dept:$('qD').value,type:$('qY').value,pages:$('qP').value,lang:$('qG').value,srcs:$('qS').value,due:$('qE').value,phone:$('qW').value,title:t,notes:$('qN').value,st:'جديد',at:Date.now()};
+  ON&&db.collection('requests').add(q).catch(()=>{});
+  const x=`السلام عليكم، أنا ${u.n}\nالجامعة: ${u.u}\nالإيميل: ${u.e}\n\nالمرحلة: ${q.level}\nالكلية: ${q.college}\nالقسم: ${q.dept||'-'}\nالنوع: ${q.type} (${q.pages} ورقة)\nاللغة: ${q.lang}\nعدد المصادر: ${q.srcs||'-'}\nموعد التسليم: ${q.due||'-'}\nواتساب الطالب: ${q.phone||'-'}\nالعنوان: ${t}\nالملاحظات: ${q.notes||'-'}`;
+  notify('تم إرسال طلبك','سيتواصل معك المشرف على واتساب');toast('تم تسجيل طلبك، جارٍ فتح واتساب…');
+  window.open('https://wa.me/'+D.whatsapp.replace(/\D/g,'')+'?text='+encodeURIComponent(x),'_blank');
+  ['qT','qD','qN','qE','qS'].forEach(i=>$(i).value='');m.textContent='';
 }
 
+/* ---------- العرض ---------- */
+function ago(t){const d=Math.floor((Date.now()-t)/864e5);return d<1?'اليوم':d<2?'أمس':d<7?'منذ '+d+' أيام':d<14?'منذ أسبوع':'منذ '+Math.floor(d/7)+' أسابيع'}
+function renderNews(){
+  const P=D.posts;$('news').classList.toggle('hide',!P.length);
+  $('nGrid').innerHTML=P.map((p,i)=>`<article class="post" onclick="showPost(${i})"><div class="pic"${p.img?` style="background-image:url('${esc(p.img)}')"`:''}>${p.img?'':'<b>ب</b>'}<span class="bd">${ago(p.t)}</span></div><div class="pb"><h3>${esc(p.title)}</h3><p>${esc(p.text.slice(0,110))}${p.text.length>110?'…':''}</p><a>اقرأ المزيد</a></div></article>`).join('');
+}
+function showPost(i){const p=D.posts[i];$('pvI').style.display=p.img?'block':'none';$('pvI').src=p.img||'';$('pvT').textContent=p.title;$('pvX').textContent=p.text;openM('mPost')}
 function ui(){
   const u=me();
   $('guest').classList.toggle('hide',!!u);$('user').classList.toggle('hide',!u);
   if(u)$('uName').textContent=u.n;
   $('reqLock').classList.toggle('hide',!!u);$('reqForm').classList.toggle('hide',!u);$('lock').classList.toggle('hide',!!u);$('lib').classList.toggle('hide',!u);$('tools').classList.toggle('hide',!u);
-  $('adsText').textContent=D.ads.join('   ★   ')||'مرحباً بكم';
-  $('ads').classList.toggle('hide',!D.ads.length);
-  $('sR').textContent=D.res.length;$('sS').textContent=new Set(D.res.map(r=>r.s)).size;$('sU').textContent=D.users.length;
+  $('adsText').textContent=D.ads.join('   ★   ')||'مرحباً بكم';$('ads').classList.toggle('hide',!D.ads.length);
+  renderNews();$('sR').textContent=D.res.length;$('sS').textContent=new Set(D.res.map(r=>r.s)).size;$('sU').textContent=D.posts.length;
   $('soc').innerHTML=D.social.map(s=>`<a href="${esc(s.u)}" target="_blank" rel="noopener">${esc(s.n)}</a>`).join('');
   const sp=[...new Set(D.res.map(r=>r.s))];
   $('chips').innerHTML=['الكل',...sp].map(s=>`<button class="chip ${s===spec?'on':''}" data-s="${esc(s)}">${esc(s)}</button>`).join('');
-  $('chips').querySelectorAll('.chip').forEach(b=>b.onclick=()=>{spec=b.dataset.s;ui()});
+  $('chips').querySelectorAll('.chip').forEach(b=>b.onclick=()=>{spec=b.dataset.s;shown=6;ui()});
   const ty=['كل الأنواع',...new Set(D.res.map(r=>r.y))],cur=$('ty').value;
   $('ty').innerHTML=ty.map(t=>`<option>${esc(t)}</option>`).join('');if(ty.includes(cur))$('ty').value=cur;
   $('specs').innerHTML=sp.map(s=>`<option value="${esc(s)}">`).join('');
@@ -347,36 +392,58 @@ function ui(){
 function render(){
   const q=$('q').value.trim(),ty=$('ty').value;
   const L=D.res.filter(r=>(spec==='الكل'||r.s===spec)&&(ty==='كل الأنواع'||r.y===ty)&&(!q||(r.t+r.d).includes(q)));
-  $('grid').innerHTML=L.length?L.map(r=>`<article class="card"><span class="tag">${esc(r.s)}</span><span class="typ">${esc(r.y)}</span><h3>${esc(r.t)}</h3><p>${esc(r.d)}</p><div class="row"><button class="btn blue sm" onclick="pick(${r.id})">اختر هذا البحث</button></div></article>`).join(''):'<div class="empty">لا توجد نتائج مطابقة. جرّب اختصاصاً آخر أو كلمة مختلفة.</div>';
+  $('grid').innerHTML=L.length?L.slice(0,shown).map(r=>`<article class="card"><span class="tag">${esc(r.s)}</span><span class="typ">${esc(r.y)}</span><h3>${esc(r.t)}</h3><p>${esc(r.d)}</p><div class="row"><button class="btn blue sm" onclick="pick('${r.id}')">اختر هذا البحث</button></div></article>`).join('')+(L.length>shown?`<div style="grid-column:1/-1;text-align:center"><button class="btn blue" onclick="shown+=6;render()">عرض المزيد (${L.length-shown})</button></div>`:''):'<div class="empty">لا توجد بحوث بعد، أو لا نتائج مطابقة.</div>';
 }
 
-/* admin */
-function adminLogin(){
-  if($('aP').value!==D.adminPass)return $('aM').textContent='كلمة المرور غير صحيحة';
-  $('aM').textContent='';$('aP').value='';isAdmin=true;openM('mAdmin');adm();
+/* ---------- الإدارة ---------- */
+function adminOpen(){if(!ON)return off();isAdmin?(openM('mAdmin'),adm()):openM('mAdminLogin')}
+async function adminLogin(){
+  try{const c=await auth.signInWithEmailAndPassword($('aE').value.trim(),$('aP').value);
+    if(c.user.email.toLowerCase()!==ADMIN_EMAIL.toLowerCase())return $('aM').textContent='هذا الحساب ليس حساب الإدارة';
+    $('aM').textContent='';$('aP').value='';isAdmin=true;openM('mAdmin');adm()}
+  catch(x){$('aM').textContent=ERR[x.code]||'تعذّر الدخول'}
 }
 function tab(b,id){document.querySelectorAll('.tabs .chip').forEach(x=>x.classList.remove('on'));b.classList.add('on');document.querySelectorAll('.pane').forEach(p=>p.classList.add('hide'));$(id).classList.remove('hide')}
 function adm(){
-  $('lR').innerHTML=D.res.map(r=>`<div class="li"><span>${esc(r.t)} <small>(${esc(r.s)})</small></span><button class="btn red sm" onclick="delR(${r.id})">حذف</button></div>`).join('');
+  $('lR').innerHTML=D.res.map(r=>`<div class="li"><span>${esc(r.t)} <small>(${esc(r.s)})</small></span><button class="btn red sm" onclick="delR('${r.id}')">حذف</button></div>`).join('');
   $('lA').innerHTML=D.ads.map((a,i)=>`<div class="li"><span>${esc(a)}</span><button class="btn red sm" onclick="delA(${i})">حذف</button></div>`).join('')||'لا توجد إعلانات';
-  $('lS').innerHTML=D.social.map((s,i)=>`<div class="li"><span>${esc(s.n)}</span><button class="btn red sm" onclick="delS(${i})">حذف</button></div>`).join('');
+  $('lS').innerHTML=D.social.map((x,i)=>`<div class="li"><span>${esc(x.n)}</span><button class="btn red sm" onclick="delS(${i})">حذف</button></div>`).join('');
+  $('lN').innerHTML=D.posts.map(p=>`<div class="li"><span>${esc(p.title)}</span><button class="btn red sm" onclick="delN('${p.id}')">حذف</button></div>`).join('');
+  $('lQ').innerHTML=D.reqs.map(r=>`<div class="li" style="display:block"><b>${esc(r.title)}</b><br><small>${esc(r.name)} · ${esc(r.uni)} · ${esc(r.college)} · ${esc(r.type)} ${esc(r.pages)} ورقة · تسليم: ${esc(r.due||'-')}<br>${esc(r.email)} · ${esc(r.phone||'-')}</small><br><select onchange="setSt('${r.id}',this.value)">${['جديد','قيد العمل','جاهز','مُسلَّم'].map(x=>`<option${x===r.st?' selected':''}>${x}</option>`).join('')}</select></div>`).join('')||'لا توجد طلبات';
   $('gW').value=D.whatsapp;$('gH').value=D.hookUrl||'';
 }
-function addR(){
-  const t=$('nT').value.trim(),s=$('nS').value.trim();if(!t||!s)return;
-  D.res.unshift({id:Date.now(),t,s,y:$('nY').value,d:$('nD').value.trim()});
-  ['nT','nS','nD'].forEach(i=>$(i).value='');save();ui();adm();
+const setSt=(id,st)=>db.doc('requests/'+id).update({st});
+const setDoc=()=>db.doc('settings/main').set({whatsapp:D.whatsapp,ads:D.ads,social:D.social});
+function addR(){const t=$('nT').value.trim(),s=$('nS').value.trim();if(!t||!s)return;db.collection('research').add({ti:t,s,y:$('nY').value,d:$('nD').value.trim(),at:Date.now()});['nT','nS','nD'].forEach(i=>$(i).value='')}
+const delR=id=>db.doc('research/'+id).delete();
+async function seedRes(){const b=db.batch();SEED.forEach(r=>b.set(db.collection('research').doc(),{ti:r[0],s:r[1],y:r[2],d:r[3],at:Date.now()}));await b.commit();toast('تم استيراد البحوث التجريبية')}
+function addA(){const a=$('nA').value.trim();if(!a)return;D.ads.unshift(a);$('nA').value='';setDoc()}
+const delA=i=>{D.ads.splice(i,1);setDoc()};
+function addS(){const n=$('nSn').value.trim(),u=$('nSu').value.trim();if(!n||!/^https?:\/\//.test(u))return;D.social.push({n,u});$('nSn').value=$('nSu').value='';setDoc()}
+const delS=i=>{D.social.splice(i,1);setDoc()};
+function shrink(f){return new Promise(res=>{const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,800/im.width),c=document.createElement('canvas');c.width=im.width*k;c.height=im.height*k;c.getContext('2d').drawImage(im,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',.65))};im.onerror=()=>res('');im.src=r.result};r.readAsDataURL(f)})}
+async function addN(){
+  const t=$('wT').value.trim();if(!t)return;
+  let img=$('wU').value.trim();const f=$('wF').files[0];if(f)img=await shrink(f);
+  await db.collection('posts').add({at:Date.now(),title:t,text:$('wX').value.trim(),img});
+  ['wT','wX','wU','wF'].forEach(i=>$(i).value='');$('wM').textContent='تم نشر الخبر ويراه الجميع الآن';
 }
-const delR=id=>{D.res=D.res.filter(r=>r.id!==id);save();ui();adm()};
-function addA(){const a=$('nA').value.trim();if(!a)return;D.ads.unshift(a);$('nA').value='';save();ui();adm();notify('إعلان جديد',a)}
-const delA=i=>{D.ads.splice(i,1);save();ui();adm()};
-function addS(){const n=$('nSn').value.trim(),u=$('nSu').value.trim();if(!n||!/^https?:\/\//.test(u))return;D.social.push({n,u});$('nSn').value=$('nSu').value='';save();ui();adm()}
-const delS=i=>{D.social.splice(i,1);save();ui();adm()};
+const delN=id=>db.doc('posts/'+id).delete();
+async function publish(){
+  const t=$('pT').value.trim(),m=$('pM');if(!t)return;
+  const pl=[$('pF').checked&&'facebook',$('pI').checked&&'instagram'].filter(Boolean);
+  if($('pAd').checked){D.ads.unshift(t);setDoc()}
+  if($('pN').checked)db.collection('posts').add({at:Date.now(),title:t.slice(0,70),text:t,img:$('pU').value.trim()});
+  if(!pl.length){m.textContent='تم النشر داخل المنصة';return}
+  if(!D.hookUrl){m.textContent='نُشر داخل المنصة. لربط فيسبوك وانستغرام أضف رابط النشر في الإعدادات';return}
+  try{await fetch(D.hookUrl,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify({text:t,image:$('pU').value.trim(),platforms:pl})});m.textContent='أُرسل المنشور إلى: '+pl.join(' و ')}
+  catch(e){m.textContent='فشل الإرسال'}
+}
 function saveG(){
-  const w=$('gW').value.replace(/\D/g,'');if(w)D.whatsapp=w;D.hookUrl=$('gH').value.trim();
-  if($('gP').value.length>=6){D.adminPass=$('gP').value;$('gP').value=''}
-  save();$('gM').textContent='تم الحفظ'
+  const w=$('gW').value.replace(/\D/g,'');if(w)D.whatsapp=w;
+  D.hookUrl=$('gH').value.trim();db.doc('private/hook').set({url:D.hookUrl});setDoc();$('gM').textContent='تم الحفظ'
 }
+addEventListener('scroll',()=>$('toTop').classList.toggle('hide',scrollY<400));
 $('yr').textContent=new Date().getFullYear();
 $('qC').innerHTML=Object.entries(COL).map(([g,a])=>`<optgroup label="${g}">${a.map(x=>`<option>${x}</option>`).join('')}</optgroup>`).join('');
 ui();
