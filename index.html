@@ -141,6 +141,7 @@ summary{cursor:pointer;font-weight:600;color:var(--head)}details p{color:var(--m
 .mt{display:flex;gap:10px;align-items:center;font-size:.8rem;color:var(--mut);margin-bottom:6px}
 .ct{background:var(--gold);color:#0c1f4a;border-radius:6px;padding:0 10px;font-weight:700}
 .hero h1 em{font-style:normal;color:var(--gold2)}
+#nGrid{transition:opacity .35s}#nGrid.sw{opacity:0}
 .msg{font-size:.9rem;margin-top:10px;min-height:1.4em}
 .msg.bad{color:var(--bad)}.msg.ok{color:var(--ok)}
 .tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
@@ -375,6 +376,7 @@ summary{cursor:pointer;font-weight:600;color:var(--head)}details p{color:var(--m
   <div id="tN" class="pane hide">
     <label>عنوان الخبر أو الإعلان</label><input id="wT">
     <label>النص</label><textarea id="wX" rows="3"></textarea>
+    <label>النوع</label><select id="wK"><option value="news">خبر (يظهر في آخر الأخبار)</option><option value="ad">إعلان (يظهر في لوحة الإعلانات)</option></select>
     <label>صورة من جهازك</label><input id="wF" type="file" accept="image/*">
     <label>أو رابط صورة (مثال: images/photo1.jpg)</label><input id="wU" dir="ltr">
     <button class="btn blue sm" style="margin-top:10px" onclick="addN()">نشر الخبر</button>
@@ -436,7 +438,7 @@ if(ON){
   let f1=true;
   db.collection('posts').orderBy('at','desc').onSnapshot(q=>{
     if(!f1&&U)q.docChanges().forEach(c=>{if(c.type==='added'){toast('جديد: '+c.doc.data().title);notify('منصة بحوثي',c.doc.data().title)}});
-    f1=false;D.posts=q.docs.map(d=>({id:d.id,t:d.data().at,title:d.data().title,text:d.data().text||'',img:d.data().img||''}));ui();isAdmin&&adm();
+    f1=false;D.posts=q.docs.map(d=>({id:d.id,t:d.data().at,title:d.data().title,text:d.data().text||'',img:d.data().img||'',k:d.data().k||'news'}));ui();isAdmin&&adm();
   },er);
   auth.onAuthStateChanged(async u=>{
     uRes&&uRes();uReq&&uReq();uMine&&uMine();uRes=uReq=uMine=null;D.mine=[];U=null;isAdmin=false;D.res=[];D.reqs=[];
@@ -497,11 +499,16 @@ function sendReq(){
 
 /* ---------- العرض ---------- */
 function ago(t){const d=Math.floor((Date.now()-t)/864e5);return d<1?'اليوم':d<2?'أمس':d<7?'منذ '+d+' أيام':d<14?'منذ أسبوع':'منذ '+Math.floor(d/7)+' أسابيع'}
+let nOff=0,nT=null,nCnt=0;
 function renderNews(){
-  const P=D.posts;$('news').classList.toggle('hide',!P.length);
-  $('nGrid').innerHTML=P.slice(0,9).map((p,i)=>{const big=i===0&&P.length>2,n=big?200:100,rt=Math.max(1,Math.ceil((p.text||'').split(/\s+/).length/180));
-  return `<article class="post${big?' big':''}" tabindex="0" onclick="showPost(${i})" onkeydown="event.key==='Enter'&&showPost(${i})"><div class="pic"${p.img?` style="background-image:url('${esc(p.img)}')"`:''}>${p.img?'':'<b>ب</b>'}</div><div class="pb"><div class="mt"><span class="ct">أخبار</span><span>${ago(p.t)}</span><span>${rt} د قراءة</span></div><h3>${esc(p.title)}</h3><p>${esc(p.text.slice(0,n))}${p.text.length>n?'…':''}</p><a>اقرأ المزيد ←</a></div></article>`}).join('');
+  const all=[];D.posts.forEach((p,i)=>{if(p.k!=='ad')all.push({p,i})});
+  nCnt=all.length;$('news').classList.toggle('hide',!all.length);
+  const o=all.length?nOff%all.length:0,R=all.slice(o).concat(all.slice(0,o)).slice(0,9);
+  $('nGrid').innerHTML=R.map((x,j)=>{const p=x.p,big=j===0&&all.length>2,n=big?200:100,rt=Math.max(1,Math.ceil((p.text||'').split(/\s+/).length/180));
+  return `<article class="post${big?' big':''}" tabindex="0" onclick="showPost(${x.i})" onkeydown="event.key==='Enter'&&showPost(${x.i})"><div class="pic"${p.img?` style="background-image:url('${esc(p.img)}')"`:''}>${p.img?'':'<b>ب</b>'}</div><div class="pb"><div class="mt"><span class="ct">أخبار</span><span>${ago(p.t)}</span><span>${rt} د قراءة</span></div><h3>${esc(p.title)}</h3><p>${esc(p.text.slice(0,n))}${p.text.length>n?'…':''}</p><a>اقرأ المزيد ←</a></div></article>`}).join('');
+  startNews();
 }
+function startNews(){clearInterval(nT);if(nCnt>1&&!matchMedia('(prefers-reduced-motion:reduce)').matches)nT=setInterval(()=>{const g=$('nGrid');g.classList.add('sw');setTimeout(()=>{nOff++;renderNews();g.classList.remove('sw')},350)},6500)}
 function showPost(i){
   const p=D.posts[i];$('pvI').style.display=p.img?'block':'none';$('pvI').src=p.img||'';$('pvT').textContent=p.title;$('pvX').textContent=p.text;
   const u=encodeURIComponent(location.href.split('#')[0]),t=encodeURIComponent(p.title);
@@ -548,9 +555,8 @@ function wc(){const v=$('wcT').value.trim(),w=v?v.split(/\s+/).length:0;$('wcO')
 function plan(){const d=$('plD').value,p=+$('plP').value;if(!d||!p){$('plO').textContent='';return}const n=Math.ceil((new Date(d)-new Date())/864e5);$('plO').textContent=n<=0?'الموعد اليوم أو انتهى':`باقي ${n} يوماً · اكتب ${Math.ceil(p/n)} ورقة يومياً`}
 let sl=0,slT=null,slN=0,slL=[];
 function renderSld(){
-  slL=D.posts.slice(0,8).map((p,i)=>({img:p.img,title:p.title,text:p.text,post:i}));
-  D.ads.slice(0,6).forEach(a=>slL.push({img:'',title:a,text:'',post:-1}));
-  slN=slL.length;$('adsl').classList.toggle('hide',!slN);$('ads').classList.add('hide');
+  slL=[];D.posts.forEach((p,i)=>{if(p.k==='ad')slL.push({img:p.img,title:p.title,text:p.text,post:i})});
+  slL=slL.slice(0,8);slN=slL.length;$('adsl').classList.toggle('hide',!slN);
   if(sl>=slN)sl=0;
   $('trk').innerHTML=slL.map((x,i)=>`<div class="sl${i===sl?' on':''}"${x.img?` style="background-image:url('${esc(x.img)}')"`:''} role="group" aria-label="${i+1} من ${slN}"><div class="cap"><h3>${esc(x.title)}</h3>${x.text?`<p>${esc(x.text.slice(0,120))}${x.text.length>120?'…':''}</p>`:''}${x.post>=0?`<button class="btn sm" onclick="showPost(${x.post})">اقرأ المزيد</button>`:''}</div></div>`).join('');
   $('dots').innerHTML=slN>1?slL.map((_,i)=>`<button class="dt${i===sl?' on':''}" aria-label="الإعلان ${i+1}" onclick="goSl(${i})"></button>`).join(''):'';
@@ -597,7 +603,7 @@ function adm(){
   $('lR').innerHTML=D.res.map(r=>`<div class="li"><span>${esc(r.t)} <small>(${esc(r.s)})</small></span><button class="btn red sm" onclick="delR('${r.id}')">حذف</button></div>`).join('');
   $('lA').innerHTML=D.ads.map((a,i)=>`<div class="li"><span>${esc(a)}</span><button class="btn red sm" onclick="delA(${i})">حذف</button></div>`).join('')||'لا توجد إعلانات';
   $('lS').innerHTML=D.social.map((x,i)=>`<div class="li"><span>${esc(x.n)}</span><button class="btn red sm" onclick="delS(${i})">حذف</button></div>`).join('');
-  $('lN').innerHTML=D.posts.map(p=>`<div class="li"><span>${esc(p.title)}</span><button class="btn red sm" onclick="delN('${p.id}')">حذف</button></div>`).join('');
+  $('lN').innerHTML=D.posts.map(p=>`<div class="li"><span>${esc(p.title)} <small>(${p.k==='ad'?'إعلان':'خبر'})</small></span><button class="btn red sm" onclick="delN('${p.id}')">حذف</button></div>`).join('');
   $('lQ').innerHTML=D.reqs.map(r=>`<div class="li" style="display:block"><b>${esc(r.title)}</b><br><small>${esc(r.name)} · ${esc(r.uni)} · ${esc(r.college)} · ${esc(r.type)} ${esc(r.pages)} ورقة · تسليم: ${esc(r.due||'-')}<br>${esc(r.email)} · ${esc(r.phone||'-')}</small><br><select onchange="setSt('${r.id}',this.value)">${['جديد','قيد العمل','جاهز','مُسلَّم'].map(x=>`<option${x===r.st?' selected':''}>${x}</option>`).join('')}</select> <button class="btn blue sm" onclick="openChat('${r.id}')">محادثة</button></div>`).join('')||'لا توجد طلبات';
   $('gW').value=D.whatsapp;$('gB').value=D.price;$('gN').value=D.notifyUrl||'';$('gH').value=D.hookUrl||'';
 }
@@ -614,7 +620,7 @@ function shrink(f){return new Promise(res=>{const r=new FileReader();r.onload=()
 async function addN(){
   const t=$('wT').value.trim();if(!t)return;
   let img=$('wU').value.trim();const f=$('wF').files[0];if(f)img=await shrink(f);
-  await db.collection('posts').add({at:Date.now(),title:t,text:$('wX').value.trim(),img});
+  await db.collection('posts').add({at:Date.now(),title:t,text:$('wX').value.trim(),img,k:$('wK').value});
   ['wT','wX','wU','wF'].forEach(i=>$(i).value='');$('wM').textContent='تم نشر الخبر ويراه الجميع الآن';
 }
 const delN=id=>db.doc('posts/'+id).delete();
@@ -622,7 +628,7 @@ async function publish(){
   const t=$('pT').value.trim(),m=$('pM');if(!t)return;
   const pl=[$('pF').checked&&'facebook',$('pI').checked&&'instagram'].filter(Boolean);
   if($('pAd').checked){D.ads.unshift(t);setDoc()}
-  if($('pN').checked)db.collection('posts').add({at:Date.now(),title:t.slice(0,70),text:t,img:$('pU').value.trim()});
+  if($('pN').checked)db.collection('posts').add({at:Date.now(),title:t.slice(0,70),text:t,img:$('pU').value.trim(),k:'news'});
   if(!pl.length){m.textContent='تم النشر داخل المنصة';return}
   if(!D.hookUrl){m.textContent='نُشر داخل المنصة. لربط فيسبوك وانستغرام أضف رابط النشر في الإعدادات';return}
   try{await fetch(D.hookUrl,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify({text:t,image:$('pU').value.trim(),platforms:pl})});m.textContent='أُرسل المنشور إلى: '+pl.join(' و ')}
@@ -635,6 +641,7 @@ function saveG(){
 addEventListener('scroll',()=>$('toTop').classList.toggle('hide',scrollY<400));
 $('yr').textContent=new Date().getFullYear();
 $('qC').innerHTML=Object.entries(COL).map(([g,a])=>`<optgroup label="${g}">${a.map(x=>`<option>${x}</option>`).join('')}</optgroup>`).join('');
+$('nGrid').addEventListener('mouseenter',()=>clearInterval(nT));$('nGrid').addEventListener('mouseleave',startNews);
 $('pv').onclick=()=>goSl(sl-1);$('nx').onclick=()=>goSl(sl+1);
 $('sld').addEventListener('mouseenter',()=>clearInterval(slT));$('sld').addEventListener('mouseleave',startSl);
 let tx=0;$('sld').addEventListener('touchstart',e=>{tx=e.touches[0].clientX},{passive:true});
