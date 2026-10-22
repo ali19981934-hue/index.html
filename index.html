@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>منصة بحوثي الأكاديمية</title>
+<meta name="description" content="منصة بحوثي: دعم أكاديمي لطلبة الجامعات العراقية — إرشاد وتنسيق وتدقيق وقوالب وأدوات مجانية.">
+<meta property="og:title" content="منصة بحوثي الأكاديمية">
+<meta property="og:description" content="دعم أكاديمي وأدوات مجانية لطلبة الجامعات العراقية">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icon-192.png">
 <meta name="theme-color" content="#0c1f4a">
@@ -93,12 +96,51 @@ label{display:block;font-size:.9rem;font-weight:600;margin:10px 0 4px}
 .pb{padding:18px}.pb h3{font-size:1.1rem;color:var(--head);line-height:1.6;margin-bottom:6px}.pb p{color:var(--mut);font-size:.93rem}.pb a{display:inline-block;margin-top:8px;color:var(--lapis);font-weight:600}
 .top{position:fixed;bottom:22px;left:18px;width:50px;height:50px;border-radius:50%;border:0;background:var(--lapis);color:#fff;font-size:1.4rem;cursor:pointer;z-index:30;box-shadow:0 6px 18px rgba(0,0,0,.25)}
 input,select,textarea{color:var(--txt)}
-[data-th=dark]{--head:#e8edff;--paper:#0a1128;--card:#121b38;--line:#27335c;--txt:#e6ebfa;--mut:#9aa6c9}
-[data-th=dark] .card .tag{background:#1b2a57;color:#9db8ff}
+[data-th=dark]{--head:#e8edff;--ink:#0b1226;--paper:#0b1226;--card:#121b38;--line:#27335c;--txt:#e8edff;--mut:#a9b6dc;--lapis:#34477d;--lapis2:#44599a}
+[data-th=dark] header{background:rgba(11,18,38,.88);backdrop-filter:blur(10px);border-bottom:1px solid #1d2850}
+[data-th=dark] .hero,[data-th=dark] footer{border-bottom:1px solid #1d2850;border-top:1px solid #1d2850}
+[data-th=dark] .card .tag{background:#222c4d;color:#b9c6e8}
 [data-th=dark] .chip{color:var(--txt)}[data-th=dark] .chip.on{color:#fff}
 .wa{position:fixed;bottom:22px;right:18px;width:54px;height:54px;border-radius:50%;background:#25d366;display:grid;place-items:center;z-index:30;box-shadow:0 6px 18px rgba(0,0,0,.3);font-size:1.6rem}
 #qPr{background:rgba(201,162,75,.15);border:1px dashed var(--gold);border-radius:10px;padding:8px 14px;margin-top:10px;color:var(--txt);font-weight:600}
 #qPr:empty{display:none}
+.chat{max-height:48vh;min-height:120px;overflow:auto;display:flex;flex-direction:column;gap:8px;padding:6px}
+.bub{max-width:82%;padding:8px 14px;border-radius:14px;font-size:.93rem;background:var(--line);color:var(--txt);white-space:pre-wrap;word-break:break-word}
+.bub.me{align-self:flex-start;background:var(--lapis);color:#fff}
+details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin-bottom:10px}
+summary{cursor:pointer;font-weight:600;color:var(--head)}details p{color:var(--mut);margin-top:8px}
+.sld{position:relative;border-radius:22px;overflow:hidden;aspect-ratio:21/8;min-height:230px;background:var(--ink);box-shadow:0 14px 34px rgba(12,31,74,.18)}
+@media(max-width:760px){.sld{aspect-ratio:16/12}}
+.sl{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .7s,visibility .7s;background:center/cover}
+.sl:not([style]){background:linear-gradient(135deg,var(--lapis),var(--ink))}
+.sl.on{opacity:1;visibility:visible;z-index:1}
+.cap{position:absolute;right:0;left:0;bottom:0;padding:26px 30px 48px;background:rgba(8,16,40,.74);color:#fff}
+.sl:not([style]) .cap{top:0;background:none;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:30px 70px}
+.cap h3{font-family:'Reem Kufi',serif;font-size:clamp(20px,3vw,32px);line-height:1.5;margin-bottom:6px;color:#fff}
+.cap p{color:#d5def5;max-width:62ch;margin-bottom:12px;font-size:.98rem}
+.nv{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:50%;border:0;background:rgba(12,31,74,.55);color:#fff;font-size:28px;line-height:1;cursor:pointer;opacity:0;transition:opacity .25s,background .2s;z-index:3}
+.sld:hover .nv,.nv:focus-visible{opacity:1}.nv:hover{background:rgba(12,31,74,.85)}
+@media(hover:none){.nv{opacity:.65}}
+.pv{right:12px}.nx{left:12px}
+.dots{position:absolute;bottom:14px;left:0;right:0;display:flex;gap:8px;justify-content:center;z-index:3}
+.dt{width:10px;height:10px;border-radius:99px;border:0;background:rgba(255,255,255,.55);cursor:pointer;padding:0;transition:width .3s,background .3s}
+.dt.on{width:30px;background:var(--gold)}
+@media(prefers-reduced-motion:reduce){.sl,.dt{transition:none}}
+.nl{display:flex;gap:26px;font-size:.95rem;color:#c8d1ea;margin-inline-start:28px}.nl a:hover{color:var(--gold2)}
+@media(max-width:820px){.nl{display:none}}
+.rv{opacity:0;transform:translateY(22px);transition:opacity .7s,transform .7s}.rv.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
+.fi{width:48px;height:48px;border-radius:14px;background:#eef2fc;color:var(--lapis);display:grid;place-items:center;margin-bottom:14px}
+[data-th=dark] .fi{background:#222c4d;color:var(--gold2)}
+.step{transition:transform .2s,border-color .2s}.step:hover{transform:translateY(-4px);border-color:var(--gold)}
+#nGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.post.big{grid-column:span 2;grid-row:span 2;display:flex;flex-direction:column}
+.post.big .pic{flex:1;min-height:300px;aspect-ratio:auto}.post.big h3{font-size:1.5rem}
+@media(max-width:1000px){#nGrid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){#nGrid{grid-template-columns:1fr}.post.big{grid-column:auto;grid-row:auto}.post.big .pic{min-height:200px}}
+.mt{display:flex;gap:10px;align-items:center;font-size:.8rem;color:var(--mut);margin-bottom:6px}
+.ct{background:var(--gold);color:#0c1f4a;border-radius:6px;padding:0 10px;font-weight:700}
+.hero h1 em{font-style:normal;color:var(--gold2)}
 .msg{font-size:.9rem;margin-top:10px;min-height:1.4em}
 .msg.bad{color:var(--bad)}.msg.ok{color:var(--ok)}
 .tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
@@ -115,6 +157,7 @@ input,select,textarea{color:var(--txt)}
 <header>
   <div class="wrap">
     <a class="logo" href="#top"><i>ب</i> منصة بحوثي</a>
+    <nav class="nl" aria-label="التنقل"><a href="#catalog">المكتبة</a><a href="#stuTools">الأدوات</a><a href="#faq">الأسئلة الشائعة</a><a href="#request">اطلب بحثك</a></nav>
     <button class="btn line sm" id="thm" onclick="theme()" aria-label="الوضع الليلي" style="margin-inline-start:auto">🌙</button>
     <div id="guest"><button class="btn line sm" onclick="openM('mLogin')">تسجيل الدخول</button> <button class="btn sm" onclick="openM('mReg')">إنشاء حساب</button></div>
     <div id="user" class="who hide"><span id="uName"></span><button class="btn line sm" onclick="logout()">خروج</button></div>
@@ -124,7 +167,7 @@ input,select,textarea{color:var(--txt)}
 <div class="hero" id="top">
   <div class="wrap">
     <div>
-      <h1>بحثك الجامعي يبدأ من هنا</h1>
+      <h1>بحثك الجامعي <em>يبدأ من هنا</em></h1>
       <p>بحوث وتقارير جاهزة لكل الاختصاصات العلمية والأكاديمية لطلبة الجامعات العراقية. سجّل بإيميلك، اختر بحثك، وتواصل معنا مباشرة على واتساب.</p>
       <button class="btn" onclick="needLogin()">اطلب بحثك الآن</button> <button class="btn line" onclick="document.getElementById('catalog').scrollIntoView()">تصفح المكتبة</button>
     </div>
@@ -136,6 +179,15 @@ input,select,textarea{color:var(--txt)}
   </div>
 </div>
 
+<section id="adsl" class="hide" style="padding:28px 0 0"><div class="wrap">
+    <div class="sld" id="sld" role="region" aria-roledescription="carousel" aria-label="لوحة الإعلانات">
+      <div id="trk"></div>
+      <button class="nv pv" id="pv" aria-label="الإعلان السابق">›</button>
+      <button class="nv nx" id="nx" aria-label="الإعلان التالي">‹</button>
+      <div class="dots" id="dots"></div>
+    </div>
+  </div></section>
+
 <section>
   <div class="wrap">
     <div class="sec-h"><h2>كيف تعمل المنصة</h2></div>
@@ -146,6 +198,16 @@ input,select,textarea{color:var(--txt)}
     </div>
   </div>
 </section>
+
+<section id="why" style="padding-bottom:20px"><div class="wrap">
+    <div class="sec-h" style="border-bottom:2px solid var(--line);padding-bottom:12px"><h2 style="border-inline-start:5px solid var(--gold);padding-inline-start:12px">لماذا بحوثي؟</h2></div>
+    <div class="grid"><div class="step"><div class="fi"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h14v16H5zM9 9h6M9 13h6"/></svg></div><h3>طلب منظم</h3><p>نموذج واضح بكل التفاصيل: الكلية والمرحلة والأوراق والموعد.</p></div><div class="step"><div class="fi"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h4l3-7 4 14 3-7h2"/></svg></div><h3>تتبع المراحل</h3><p>تعرف أين وصل طلبك في كل لحظة وتصلك إشعارات.</p></div><div class="step"><div class="fi"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg></div><h3>محادثة مباشرة</h3><p>راسل الفريق داخل المنصة وتابع الملاحظات بسهولة.</p></div><div class="step"><div class="fi"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h7v14H4zM13 5h7v14h-7z"/></svg></div><h3>مكتبة اختصاصات</h3><p>مواضيع مصنفة حسب كليات الجامعات العراقية.</p></div><div class="step"><div class="fi"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 6l4 4-9 9H5v-4zM13 7l4 4"/></svg></div><h3>أدوات مجانية</h3><p>مولّد مراجع وعدّاد كلمات ومخطط موعد التسليم.</p></div><div class="step"><div class="fi"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3 8-8 9-5-1-8-4-8-9V6z"/></svg></div><h3>خصوصية وأمان</h3><p>بياناتك محمية ولا تُشارك مع أي جهة.</p></div></div>
+  </div></section>
+
+<section id="colleges" style="padding-top:20px"><div class="wrap">
+    <div class="sec-h" style="border-bottom:2px solid var(--line);padding-bottom:12px"><h2 style="border-inline-start:5px solid var(--gold);padding-inline-start:12px">كل اختصاصات الجامعات العراقية</h2></div>
+    <div class="grid"><div class="step" style="border-top:3px solid var(--gold)"><h3>الكليات الطبية والصحية</h3><p style="line-height:2">الطب · طب الأسنان · الصيدلة · التمريض · العلوم الصحية</p></div><div class="step" style="border-top:3px solid var(--gold)"><h3>الكليات العلمية والهندسية</h3><p style="line-height:2">الهندسة · الحاسوب · العلوم · الزراعة · الطب البيطري</p></div><div class="step" style="border-top:3px solid var(--gold)"><h3>الكليات الإنسانية والاجتماعية</h3><p style="line-height:2">الإدارة والاقتصاد · القانون · التربية · الآداب · الإعلام</p></div></div>
+  </div></section>
 
 <section id="news" class="hide" style="padding-bottom:20px"><div class="wrap">
     <div class="sec-h" style="border-bottom:2px solid var(--line);padding-bottom:12px"><h2 style="border-inline-start:5px solid var(--gold);padding-inline-start:12px">آخر الأخبار والإعلانات</h2></div>
@@ -193,13 +255,36 @@ input,select,textarea{color:var(--txt)}
   </div>
 </section>
 
+<section id="stuTools" style="padding-bottom:20px"><div class="wrap">
+    <div class="sec-h" style="border-bottom:2px solid var(--line);padding-bottom:12px"><h2 style="border-inline-start:5px solid var(--gold);padding-inline-start:12px">أدوات مجانية للطالب</h2></div>
+    <div class="grid">
+      <div class="card rf"><h3>مولّد المراجع</h3>
+        <select id="ctS" onchange="cite()"><option>APA</option><option>MLA</option><option>Harvard</option></select>
+        <select id="ctW" onchange="cite()"><option value="book">كتاب</option><option value="web">موقع إلكتروني</option></select>
+        <input id="ctA" placeholder="المؤلف" oninput="cite()"><input id="ctY" placeholder="السنة" oninput="cite()"><input id="ctT" placeholder="العنوان" oninput="cite()"><input id="ctP" placeholder="دار النشر / اسم الموقع" oninput="cite()"><input id="ctU" dir="ltr" placeholder="الرابط" oninput="cite()">
+        <div id="ctO" style="background:var(--paper);border-radius:10px;padding:10px;font-size:.93rem;word-break:break-word;min-height:20px"></div>
+        <button class="btn blue sm" onclick="copyCite()">نسخ المرجع</button></div>
+      <div class="card rf"><h3>عدّاد الكلمات والصفحات</h3><textarea id="wcT" rows="7" placeholder="ألصق نصك هنا" oninput="wc()"></textarea><b id="wcO" style="color:var(--head)"></b></div>
+      <div class="card rf"><h3>مخطط موعد التسليم</h3><label>موعد التسليم</label><input id="plD" type="date" oninput="plan()"><label>عدد الأوراق المطلوبة</label><input id="plP" type="number" min="1" oninput="plan()"><b id="plO" style="color:var(--head)"></b></div>
+    </div>
+  </div></section>
+
+<section id="faq" style="padding-top:0"><div class="wrap">
+    <div class="sec-h" style="border-bottom:2px solid var(--line);padding-bottom:12px"><h2 style="border-inline-start:5px solid var(--gold);padding-inline-start:12px">أسئلة شائعة</h2></div>
+    <details><summary>كم تستغرق الخدمة؟</summary><p>حسب نوع الطلب وعدد الأوراق، ونتفق على موعد واضح قبل البدء.</p></details>
+    <details><summary>كيف أتابع طلبي؟</summary><p>من قسم «طلباتي» ترى حالة طلبك وتراسلنا من المحادثة داخل المنصة.</p></details>
+    <details><summary>هل بياناتي سرية؟</summary><p>نعم، لا نشارك بياناتك مع أي جهة، وتُستخدم فقط لتنفيذ طلبك.</p></details>
+    <details><summary>كيف يتم السعر والدفع؟</summary><p>تظهر لك تكلفة تقريبية في نموذج الطلب، ونتفق على السعر النهائي ووسيلة الدفع عبر واتساب.</p></details>
+    <details><summary>هل أستطيع طلب تعديلات؟</summary><p>نعم، يمكنك طلب التعديلات عبر المحادثة ضمن الاتفاق.</p></details>
+  </div></section>
+
 <footer>
   <div class="wrap">
     <div><div class="logo" style="color:#fff">منصة بحوثي</div><div style="font-size:.9rem">خدمة أكاديمية لطلبة الجامعات العراقية</div></div>
     <div class="soc" id="soc"></div>
   </div>
   <div style="text-align:center"><button class="btn sm hide" id="inst" onclick="installApp()" style="margin-top:14px">تثبيت المنصة كتطبيق</button></div>
-  <div class="copy">© <span id="yr"></span> منصة بحوثي · <a onclick="adminOpen()">لوحة الإدارة</a></div>
+  <div class="copy">© <span id="yr"></span> منصة بحوثي · <a onclick="openM('mTerms')">الشروط والخصوصية</a> · <a onclick="adminOpen()">لوحة الإدارة</a></div>
 </footer>
 
 <!-- Modals -->
@@ -224,12 +309,28 @@ input,select,textarea{color:var(--txt)}
 
 <div class="modal" id="mPost"><div class="box wide" style="padding:0;overflow:hidden"><button class="x" onclick="closeM()" aria-label="إغلاق" style="background:var(--card);border-radius:50%;width:34px;height:34px;line-height:1;z-index:2">×</button>
   <img id="pvI" alt="" style="width:100%;max-height:320px;object-fit:cover;display:none">
-  <div style="padding:22px"><h2 id="pvT"></h2><p id="pvX" style="white-space:pre-wrap;color:var(--mut)"></p></div>
+  <div style="padding:22px"><h2 id="pvT"></h2><p id="pvX" style="white-space:pre-wrap;color:var(--mut)"></p><div id="pvS" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px"></div></div>
 </div></div>
 
 <a class="wa" id="wa" href="#" target="_blank" rel="noopener" aria-label="تواصل معنا على واتساب" title="تواصل معنا على واتساب">💬</a>
 
 <button class="top hide" id="toTop" onclick="scrollTo({top:0,behavior:'smooth'})" aria-label="للأعلى">↑</button>
+
+<div class="modal" id="mChat"><div class="box wide"><button class="x" onclick="closeChat()" aria-label="إغلاق">×</button>
+  <h2 id="cT" style="font-size:1.15rem;padding-inline:30px"></h2>
+  <div class="chat" id="cL"></div>
+  <div style="display:flex;gap:8px;margin-top:12px"><input id="cI" placeholder="اكتب رسالتك…" onkeydown="event.key==='Enter'&&sendMsg()"><button class="btn blue" onclick="sendMsg()">إرسال</button></div>
+</div></div>
+
+<div class="modal" id="mTerms"><div class="box wide"><button class="x" onclick="closeM()" aria-label="إغلاق">×</button>
+  <h2>الشروط والخصوصية</h2>
+  <div style="font-size:.93rem;color:var(--mut);max-height:60vh;overflow:auto">
+    <p><b>طبيعة الخدمة:</b> تقدّم منصة بحوثي دعماً أكاديمياً (إرشاد، تنسيق، تدقيق، مراجعة، قوالب وأدوات). يلتزم الطالب بأنظمة جامعته وسياسات النزاهة الأكاديمية، وهو المسؤول عن طريقة استخدامه للمواد المقدّمة.</p>
+    <p><b>الخصوصية:</b> نجمع الاسم والجامعة والبريد وتفاصيل الطلب لتنفيذه فقط، ولا نبيعها ولا نشاركها مع أطراف خارجية.</p>
+    <p><b>الدفع والتعديلات:</b> يُتفق على السعر والموعد قبل البدء عبر التواصل المباشر.</p>
+    <p><b>الحذف:</b> يمكنك طلب حذف حسابك وبياناتك بمراسلتنا على واتساب.</p>
+  </div>
+</div></div>
 
 <div class="modal" id="mAdminLogin"><div class="box"><button class="x" onclick="closeM()" aria-label="إغلاق">×</button>
   <h2>لوحة الإدارة</h2>
@@ -293,6 +394,7 @@ input,select,textarea{color:var(--txt)}
   <div id="tG" class="pane hide">
     <label>رقم واتساب لاستلام الطلبات (بصيغة دولية بدون +)</label><input id="gW" dir="ltr" placeholder="9647XXXXXXXXX">
     <label>سعر الورقة الأساسي بالدينار (للحاسبة)</label><input id="gB" type="number" dir="ltr">
+    <label>رابط تنبيه الطلبات (Make ← تلغرام)</label><input id="gN" dir="ltr" placeholder="https://hook.make.com/...">
     <label>رابط النشر على المنصات (Make Webhook)</label><input id="gH" dir="ltr" placeholder="https://hook.make.com/...">
     <button class="btn blue sm" style="margin-top:10px" onclick="saveG()">حفظ</button>
     <div class="msg ok" id="gM"></div>
@@ -309,12 +411,12 @@ input,select,textarea{color:var(--txt)}
 const CFG={apiKey:"AIzaSyCl2OmuWn9dq7nTMfU7pYfQEeD0R-kzCqA",authDomain:"index-6ee24.firebaseapp.com",projectId:"index-6ee24",appId:"1:226504060595:web:821ca439657cc6b52b8ac6"};
 const ADMIN_EMAIL="ali19981933@gmail.com";
 /* ==================================== */
-try{if(localStorage.th==='dark')document.documentElement.dataset.th='dark'}catch(e){}
+try{if(localStorage.th!=='light')document.documentElement.dataset.th='dark'}catch(e){document.documentElement.dataset.th='dark'}
 const ON=!CFG.apiKey.startsWith('PASTE');
 const SEED=[['أثر الذكاء الاصطناعي في التعليم الجامعي','علوم الحاسوب','بحث','دراسة تحليلية لتطبيقات الذكاء الاصطناعي في الجامعات العراقية.'],['أمن الشبكات وحماية البيانات','علوم الحاسوب','تقرير','تقرير عن أساليب الحماية الحديثة للشبكات.'],['التضخم وأثره على القوة الشرائية في العراق','الاقتصاد','بحث','بحث اقتصادي يحلل مؤشرات التضخم.'],['دور المصارف الخاصة في التنمية','الإدارة والمالية','بحث','دراسة ميدانية للقطاع المصرفي الخاص.'],['إدارة الجودة الشاملة','الإدارة والمالية','تقرير','مبادئ الجودة الشاملة وتطبيقاتها.'],['مقاومة المضادات الحيوية','الطب والصيدلة','بحث','مراجعة علمية لأسباب مقاومة البكتيريا.'],['تصميم الجسور المعلقة','الهندسة','مشروع تخرج','تصميم إنشائي مع الحسابات والمخططات.'],['الطاقة الشمسية في العراق','الهندسة','بحث','جدوى فنية واقتصادية لمحطات الطاقة الشمسية.'],['أساليب تدريس اللغة الإنجليزية','التربية','بحث','مقارنة بين الأساليب الحديثة والتقليدية.'],['الحقوق الدستورية في دستور 2005','القانون','بحث','دراسة قانونية مقارنة للحقوق والحريات.'],['التلوث البيئي في نهر دجلة','العلوم','تقرير','تقرير ميداني عن مصادر التلوث.'],['الشعر العربي الحديث في العراق','اللغة العربية والآداب','بحث','دراسة نقدية لأعلام الشعر الحديث.']];
 const COL={'الكليات الطبية والصحية':['الطب','طب الأسنان','الصيدلة','التمريض','العلوم الصحية والطبية'],'الكليات العلمية والهندسية':['الهندسة','علوم الحاسوب وتكنولوجيا المعلومات','العلوم','العلوم التطبيقية','الزراعة','الطب البيطري','التقنيات الهندسية'],'الكليات الإنسانية والاجتماعية':['الإدارة والاقتصاد','القانون','التربية','التربية الأساسية','التربية البدنية وعلوم الرياضة','الآداب','اللغات','العلوم السياسية','الإعلام','الفنون الجميلة','العلوم الإسلامية','الشريعة']};
 const ERR={'auth/email-already-in-use':'هذا البريد مسجّل مسبقاً، سجّل الدخول','auth/weak-password':'كلمة المرور ضعيفة','auth/invalid-email':'البريد غير صحيح','auth/invalid-credential':'البريد أو كلمة المرور غير صحيحة','auth/too-many-requests':'محاولات كثيرة، انتظر قليلاً'};
-let D={whatsapp:'9647703433901',hookUrl:'',ads:['أهلاً بكم في منصة بحوثي — سجّلوا الآن واطلبوا بحثكم'],social:[{n:'تلغرام',u:'https://t.me/'},{n:'انستغرام',u:'https://instagram.com/'},{n:'فيسبوك',u:'https://facebook.com/'}],res:ON?[]:SEED.map((r,i)=>({id:'s'+i,t:r[0],s:r[1],y:r[2],d:r[3]})),posts:[],reqs:[],mine:[],price:1000};
+let D={whatsapp:'9647703433901',hookUrl:'',ads:['أهلاً بكم في منصة بحوثي — سجّلوا الآن واطلبوا بحثكم'],social:[{n:'تلغرام',u:'https://t.me/'},{n:'انستغرام',u:'https://instagram.com/'},{n:'فيسبوك',u:'https://facebook.com/'}],res:ON?[]:SEED.map((r,i)=>({id:'s'+i,t:r[0],s:r[1],y:r[2],d:r[3]})),posts:[],reqs:[],mine:[],price:1000,notifyUrl:''};
 let U=null,isAdmin=false,spec='الكل',shown=6,reg=false,db,auth,uRes=null,uReq=null,uMine=null,fm=true;
 const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -330,7 +432,7 @@ const off=()=>toast('المنصة غير مربوطة بـ Firebase بعد');
 if(ON){
   firebase.initializeApp(CFG);db=firebase.firestore();auth=firebase.auth();
   const er=e=>console.warn(e.code);
-  db.doc('settings/main').onSnapshot(d=>{if(d.exists){const x=d.data();D.whatsapp=x.whatsapp||D.whatsapp;D.ads=x.ads||[];D.social=x.social||[];D.price=x.price||D.price}ui();isAdmin&&adm()},er);
+  db.doc('settings/main').onSnapshot(d=>{if(d.exists){const x=d.data();D.whatsapp=x.whatsapp||D.whatsapp;D.ads=x.ads||[];D.social=x.social||[];D.price=x.price||D.price;D.notifyUrl=x.notifyUrl||''}ui();isAdmin&&adm()},er);
   let f1=true;
   db.collection('posts').orderBy('at','desc').onSnapshot(q=>{
     if(!f1&&U)q.docChanges().forEach(c=>{if(c.type==='added'){toast('جديد: '+c.doc.data().title);notify('منصة بحوثي',c.doc.data().title)}});
@@ -386,6 +488,7 @@ function sendReq(){
   if(!t){m.className='msg bad';return m.textContent='اكتب عنوان البحث'}
   const q={uid:u.uid,name:u.n,uni:u.u,email:u.e,level:$('qL').value,college:$('qC').value,dept:$('qD').value,type:$('qY').value,pages:$('qP').value,lang:$('qG').value,srcs:$('qS').value,due:$('qE').value,phone:$('qW').value,title:t,notes:$('qN').value,est:calc(),st:'جديد',at:Date.now()};
   ON&&db.collection('requests').add(q).catch(()=>{});
+  if(D.notifyUrl)fetch(D.notifyUrl,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify({text:`طلب جديد من ${u.n}\n${t}\n${q.college} · ${q.type} ${q.pages} ورقة\nالتسليم: ${q.due||'-'}\nالتقدير: ${q.est.toLocaleString('en')} د.ع`})}).catch(()=>{});
   const x=`السلام عليكم، أنا ${u.n}\nالجامعة: ${u.u}\nالإيميل: ${u.e}\n\nالمرحلة: ${q.level}\nالكلية: ${q.college}\nالقسم: ${q.dept||'-'}\nالنوع: ${q.type} (${q.pages} ورقة)\nاللغة: ${q.lang}\nعدد المصادر: ${q.srcs||'-'}\nموعد التسليم: ${q.due||'-'}\nواتساب الطالب: ${q.phone||'-'}\nالتكلفة التقريبية: ${q.est.toLocaleString('en')} دينار\nالعنوان: ${t}\nالملاحظات: ${q.notes||'-'}`;
   notify('تم إرسال طلبك','سيتواصل معك المشرف على واتساب');toast('تم تسجيل طلبك، جارٍ فتح واتساب…');
   window.open('https://wa.me/'+D.whatsapp.replace(/\D/g,'')+'?text='+encodeURIComponent(x),'_blank');
@@ -396,9 +499,15 @@ function sendReq(){
 function ago(t){const d=Math.floor((Date.now()-t)/864e5);return d<1?'اليوم':d<2?'أمس':d<7?'منذ '+d+' أيام':d<14?'منذ أسبوع':'منذ '+Math.floor(d/7)+' أسابيع'}
 function renderNews(){
   const P=D.posts;$('news').classList.toggle('hide',!P.length);
-  $('nGrid').innerHTML=P.map((p,i)=>`<article class="post" onclick="showPost(${i})"><div class="pic"${p.img?` style="background-image:url('${esc(p.img)}')"`:''}>${p.img?'':'<b>ب</b>'}<span class="bd">${ago(p.t)}</span></div><div class="pb"><h3>${esc(p.title)}</h3><p>${esc(p.text.slice(0,110))}${p.text.length>110?'…':''}</p><a>اقرأ المزيد</a></div></article>`).join('');
+  $('nGrid').innerHTML=P.slice(0,9).map((p,i)=>{const big=i===0&&P.length>2,n=big?200:100,rt=Math.max(1,Math.ceil((p.text||'').split(/\s+/).length/180));
+  return `<article class="post${big?' big':''}" tabindex="0" onclick="showPost(${i})" onkeydown="event.key==='Enter'&&showPost(${i})"><div class="pic"${p.img?` style="background-image:url('${esc(p.img)}')"`:''}>${p.img?'':'<b>ب</b>'}</div><div class="pb"><div class="mt"><span class="ct">أخبار</span><span>${ago(p.t)}</span><span>${rt} د قراءة</span></div><h3>${esc(p.title)}</h3><p>${esc(p.text.slice(0,n))}${p.text.length>n?'…':''}</p><a>اقرأ المزيد ←</a></div></article>`}).join('');
 }
-function showPost(i){const p=D.posts[i];$('pvI').style.display=p.img?'block':'none';$('pvI').src=p.img||'';$('pvT').textContent=p.title;$('pvX').textContent=p.text;openM('mPost')}
+function showPost(i){
+  const p=D.posts[i];$('pvI').style.display=p.img?'block':'none';$('pvI').src=p.img||'';$('pvT').textContent=p.title;$('pvX').textContent=p.text;
+  const u=encodeURIComponent(location.href.split('#')[0]),t=encodeURIComponent(p.title);
+  $('pvS').innerHTML=`<a class="btn sm" target="_blank" rel="noopener" href="https://wa.me/?text=${t}%20${u}">واتساب</a><a class="btn sm blue" target="_blank" rel="noopener" href="https://t.me/share/url?url=${u}&text=${t}">تلغرام</a><button class="btn sm line" style="background:var(--ink)" onclick="try{navigator.clipboard.writeText(location.href.split('#')[0]);toast('تم نسخ الرابط')}catch(e){}">نسخ الرابط</button>`;
+  openM('mPost');
+}
 const STC={'جديد':'#66708c','قيد العمل':'#c9a24b','جاهز':'#1d8a5b','مُسلَّم':'#173c8f'};
 const MUL={'بكالوريوس':1,'دبلوم':.9,'ماجستير':1.5,'دكتوراه':2},TM={'بحث':1,'تقرير':.8,'مشروع تخرج':1.6,'ملخص':.6,'عرض تقديمي':.7};
 function calc(){
@@ -410,9 +519,47 @@ function calc(){
 }
 function renderMine(){
   const M=D.mine;$('mySec').classList.toggle('hide',!(U&&M.length));
-  $('myList').innerHTML=M.map(r=>{const c=STC[r.st]||'#66708c';return `<article class="card" style="border-top-color:${c}"><div class="row"><span class="tag">${esc(r.college)}</span><span style="background:${c};color:#fff;border-radius:99px;padding:2px 14px;font-size:.85rem;font-weight:600">${esc(r.st||'جديد')}</span></div><h3>${esc(r.title)}</h3><p>${esc(r.type)} · ${esc(r.pages)} ورقة${r.due?' · التسليم: '+esc(r.due):''}</p><small style="color:var(--mut)">${ago(r.at)}</small></article>`}).join('');
+  $('myList').innerHTML=M.map(r=>{const c=STC[r.st]||'#66708c';return `<article class="card" style="border-top-color:${c}"><div class="row"><span class="tag">${esc(r.college)}</span><span style="background:${c};color:#fff;border-radius:99px;padding:2px 14px;font-size:.85rem;font-weight:600">${esc(r.st||'جديد')}</span></div><h3>${esc(r.title)}</h3><p>${esc(r.type)} · ${esc(r.pages)} ورقة${r.due?' · التسليم: '+esc(r.due):''}</p><div class="row"><small style="color:var(--mut)">${ago(r.at)}</small><button class="btn blue sm" onclick="openChat('${r.id}')">المحادثة</button></div></article>`}).join('');
 }
-function theme(){const d=document.documentElement,n=d.dataset.th==='dark'?'':'dark';d.dataset.th=n;try{localStorage.th=n}catch(e){}$('thm').textContent=n?'☀️':'🌙'}
+let chatId=null,uChat=null;
+function openChat(id){
+  const r=D.mine.find(x=>x.id===id)||D.reqs.find(x=>x.id===id)||{};
+  chatId=id;uChat&&uChat();$('cT').textContent='محادثة الطلب: '+(r.title||'');$('cL').innerHTML='';openM('mChat');
+  uChat=db.collection('requests/'+id+'/msgs').orderBy('at').onSnapshot(q=>{
+    $('cL').innerHTML=q.docs.map(d=>{const m=d.data(),mine=(m.from==='admin')===isAdmin;return `<div class="bub${mine?' me':''}">${esc(m.text)}<br><small style="opacity:.7">${esc(m.name||'')} · ${ago(m.at)}</small></div>`}).join('')||'<div class="empty" style="padding:16px">ابدأ المحادثة بكتابة رسالتك</div>';
+    $('cL').scrollTop=1e9;
+  },e=>console.warn(e.code));
+}
+function closeChat(){uChat&&uChat();uChat=null;closeM()}
+async function sendMsg(){
+  const t=$('cI').value.trim();if(!t||!chatId||!U)return;$('cI').value='';
+  try{await db.collection('requests/'+chatId+'/msgs').add({text:t.slice(0,1000),from:isAdmin?'admin':'student',name:isAdmin?'الإدارة':U.n,uid:U.uid,at:Date.now()})}catch(e){toast('تعذّر الإرسال')}
+}
+function cite(){
+  const a=$('ctA').value.trim(),y=$('ctY').value.trim()||'د.ت',t=$('ctT').value.trim(),p=$('ctP').value.trim(),u=$('ctU').value.trim(),st=$('ctS').value,w=$('ctW').value==='web'&&u;
+  let o;
+  if(st==='APA')o=`${a} (${y}). ${t}. ${p}.${w?' '+u:''}`;
+  else if(st==='MLA')o=`${a}. ${t}. ${p}, ${y}.${w?' '+u+'.':''}`;
+  else o=`${a} (${y}) ${t}. ${p}.${w?' متاح على: '+u:''}`;
+  $('ctO').textContent=t?o:'';
+}
+function copyCite(){try{navigator.clipboard.writeText($('ctO').textContent);toast('تم نسخ المرجع')}catch(e){}}
+function wc(){const v=$('wcT').value.trim(),w=v?v.split(/\s+/).length:0;$('wcO').textContent=w?`${w} كلمة · ${$('wcT').value.length} حرف · ≈ ${Math.ceil(w/300)} صفحة`:''}
+function plan(){const d=$('plD').value,p=+$('plP').value;if(!d||!p){$('plO').textContent='';return}const n=Math.ceil((new Date(d)-new Date())/864e5);$('plO').textContent=n<=0?'الموعد اليوم أو انتهى':`باقي ${n} يوماً · اكتب ${Math.ceil(p/n)} ورقة يومياً`}
+let sl=0,slT=null,slN=0,slL=[];
+function renderSld(){
+  slL=D.posts.slice(0,8).map((p,i)=>({img:p.img,title:p.title,text:p.text,post:i}));
+  D.ads.slice(0,6).forEach(a=>slL.push({img:'',title:a,text:'',post:-1}));
+  slN=slL.length;$('adsl').classList.toggle('hide',!slN);$('ads').classList.add('hide');
+  if(sl>=slN)sl=0;
+  $('trk').innerHTML=slL.map((x,i)=>`<div class="sl${i===sl?' on':''}"${x.img?` style="background-image:url('${esc(x.img)}')"`:''} role="group" aria-label="${i+1} من ${slN}"><div class="cap"><h3>${esc(x.title)}</h3>${x.text?`<p>${esc(x.text.slice(0,120))}${x.text.length>120?'…':''}</p>`:''}${x.post>=0?`<button class="btn sm" onclick="showPost(${x.post})">اقرأ المزيد</button>`:''}</div></div>`).join('');
+  $('dots').innerHTML=slN>1?slL.map((_,i)=>`<button class="dt${i===sl?' on':''}" aria-label="الإعلان ${i+1}" onclick="goSl(${i})"></button>`).join(''):'';
+  $('pv').style.display=$('nx').style.display=slN>1?'':'none';
+  startSl();
+}
+function goSl(i){sl=(i+slN)%slN;document.querySelectorAll('.sl').forEach((e,k)=>e.classList.toggle('on',k===sl));document.querySelectorAll('.dt').forEach((e,k)=>e.classList.toggle('on',k===sl));startSl()}
+function startSl(){clearInterval(slT);if(slN>1&&!matchMedia('(prefers-reduced-motion:reduce)').matches)slT=setInterval(()=>goSl(sl+1),5500)}
+function theme(){const d=document.documentElement,n=d.dataset.th==='dark'?'light':'dark';d.dataset.th=n;try{localStorage.th=n}catch(e){}$('thm').textContent=n==='dark'?'☀️':'🌙'}
 let dp=null;addEventListener('beforeinstallprompt',e=>{e.preventDefault();dp=e;$('inst').classList.remove('hide')});
 function installApp(){dp&&dp.prompt()}
 function ui(){
@@ -421,7 +568,7 @@ function ui(){
   if(u)$('uName').textContent=u.n;
   $('reqLock').classList.toggle('hide',!!u);$('reqForm').classList.toggle('hide',!u);$('lock').classList.toggle('hide',!!u);$('lib').classList.toggle('hide',!u);$('tools').classList.toggle('hide',!u);
   $('adsText').textContent=D.ads.join('   ★   ')||'مرحباً بكم';$('ads').classList.toggle('hide',!D.ads.length);
-  renderNews();renderMine();calc();$('wa').href='https://wa.me/'+D.whatsapp.replace(/\D/g,'');$('sR').textContent=D.res.length;$('sS').textContent=new Set(D.res.map(r=>r.s)).size;$('sU').textContent=D.posts.length;
+  renderNews();renderSld();renderMine();calc();$('wa').href='https://wa.me/'+D.whatsapp.replace(/\D/g,'');$('sR').textContent=D.res.length;$('sS').textContent=new Set(D.res.map(r=>r.s)).size;$('sU').textContent=D.posts.length;
   $('soc').innerHTML=D.social.map(s=>`<a href="${esc(s.u)}" target="_blank" rel="noopener">${esc(s.n)}</a>`).join('');
   const sp=[...new Set(D.res.map(r=>r.s))];
   $('chips').innerHTML=['الكل',...sp].map(s=>`<button class="chip ${s===spec?'on':''}" data-s="${esc(s)}">${esc(s)}</button>`).join('');
@@ -451,11 +598,11 @@ function adm(){
   $('lA').innerHTML=D.ads.map((a,i)=>`<div class="li"><span>${esc(a)}</span><button class="btn red sm" onclick="delA(${i})">حذف</button></div>`).join('')||'لا توجد إعلانات';
   $('lS').innerHTML=D.social.map((x,i)=>`<div class="li"><span>${esc(x.n)}</span><button class="btn red sm" onclick="delS(${i})">حذف</button></div>`).join('');
   $('lN').innerHTML=D.posts.map(p=>`<div class="li"><span>${esc(p.title)}</span><button class="btn red sm" onclick="delN('${p.id}')">حذف</button></div>`).join('');
-  $('lQ').innerHTML=D.reqs.map(r=>`<div class="li" style="display:block"><b>${esc(r.title)}</b><br><small>${esc(r.name)} · ${esc(r.uni)} · ${esc(r.college)} · ${esc(r.type)} ${esc(r.pages)} ورقة · تسليم: ${esc(r.due||'-')}<br>${esc(r.email)} · ${esc(r.phone||'-')}</small><br><select onchange="setSt('${r.id}',this.value)">${['جديد','قيد العمل','جاهز','مُسلَّم'].map(x=>`<option${x===r.st?' selected':''}>${x}</option>`).join('')}</select></div>`).join('')||'لا توجد طلبات';
-  $('gW').value=D.whatsapp;$('gB').value=D.price;$('gH').value=D.hookUrl||'';
+  $('lQ').innerHTML=D.reqs.map(r=>`<div class="li" style="display:block"><b>${esc(r.title)}</b><br><small>${esc(r.name)} · ${esc(r.uni)} · ${esc(r.college)} · ${esc(r.type)} ${esc(r.pages)} ورقة · تسليم: ${esc(r.due||'-')}<br>${esc(r.email)} · ${esc(r.phone||'-')}</small><br><select onchange="setSt('${r.id}',this.value)">${['جديد','قيد العمل','جاهز','مُسلَّم'].map(x=>`<option${x===r.st?' selected':''}>${x}</option>`).join('')}</select> <button class="btn blue sm" onclick="openChat('${r.id}')">محادثة</button></div>`).join('')||'لا توجد طلبات';
+  $('gW').value=D.whatsapp;$('gB').value=D.price;$('gN').value=D.notifyUrl||'';$('gH').value=D.hookUrl||'';
 }
 const setSt=(id,st)=>db.doc('requests/'+id).update({st});
-const setDoc=()=>db.doc('settings/main').set({whatsapp:D.whatsapp,ads:D.ads,social:D.social,price:D.price});
+const setDoc=()=>db.doc('settings/main').set({whatsapp:D.whatsapp,ads:D.ads,social:D.social,price:D.price,notifyUrl:D.notifyUrl||''});
 function addR(){const t=$('nT').value.trim(),s=$('nS').value.trim();if(!t||!s)return;db.collection('research').add({ti:t,s,y:$('nY').value,d:$('nD').value.trim(),at:Date.now()});['nT','nS','nD'].forEach(i=>$(i).value='')}
 const delR=id=>db.doc('research/'+id).delete();
 async function seedRes(){const b=db.batch();SEED.forEach(r=>b.set(db.collection('research').doc(),{ti:r[0],s:r[1],y:r[2],d:r[3],at:Date.now()}));await b.commit();toast('تم استيراد البحوث التجريبية')}
@@ -483,14 +630,19 @@ async function publish(){
 }
 function saveG(){
   const w=$('gW').value.replace(/\D/g,'');if(w)D.whatsapp=w;
-  D.hookUrl=$('gH').value.trim();D.price=+$('gB').value||D.price;db.doc('private/hook').set({url:D.hookUrl});setDoc();$('gM').textContent='تم الحفظ'
+  D.hookUrl=$('gH').value.trim();D.price=+$('gB').value||D.price;D.notifyUrl=$('gN').value.trim();db.doc('private/hook').set({url:D.hookUrl});setDoc();$('gM').textContent='تم الحفظ'
 }
 addEventListener('scroll',()=>$('toTop').classList.toggle('hide',scrollY<400));
 $('yr').textContent=new Date().getFullYear();
 $('qC').innerHTML=Object.entries(COL).map(([g,a])=>`<optgroup label="${g}">${a.map(x=>`<option>${x}</option>`).join('')}</optgroup>`).join('');
+$('pv').onclick=()=>goSl(sl-1);$('nx').onclick=()=>goSl(sl+1);
+$('sld').addEventListener('mouseenter',()=>clearInterval(slT));$('sld').addEventListener('mouseleave',startSl);
+let tx=0;$('sld').addEventListener('touchstart',e=>{tx=e.touches[0].clientX},{passive:true});
+$('sld').addEventListener('touchend',e=>{const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>50)goSl(sl+(d<0?1:-1))});
 ui();
 $('thm').textContent=document.documentElement.dataset.th==='dark'?'☀️':'🌙';
 ['qL','qY','qP','qG'].forEach(i=>$(i).addEventListener('input',calc));
+if(!matchMedia('(prefers-reduced-motion:reduce)').matches&&'IntersectionObserver' in window){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.06});document.querySelectorAll('section').forEach(e=>{e.classList.add('rv');io.observe(e)})}
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>
 </body>
